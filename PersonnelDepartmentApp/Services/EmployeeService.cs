@@ -1,53 +1,50 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
 using PersonnelDepartmentApp.Models;
+using PersonnelDepartmentApp.Utils;
 
 namespace PersonnelDepartmentApp.Services
 {
-    /// <summary>
-    /// Клас для роботи зі списком співробітників.
-    /// </summary>
     public class EmployeeService
     {
         private List<Employee> employees = new List<Employee>();
 
-        public EmployeeService()
+        public List<Employee> GetEmployees()
         {
-            // Можна ініціалізувати тестовими даними або пустим списком
-        }
-
-        public List<Employee> GetAllEmployees()
-        {
+            if (employees.Count == 0)
+            {
+                // Завантажуємо дані з Excel, якщо список порожній
+                employees = FileService.LoadEmployeesFromExcel();
+            }
             return employees;
         }
 
         public void AddEmployee(Employee employee)
         {
             employees.Add(employee);
+            SaveEmployees();
         }
 
-        public void RemoveEmployee(Employee employee)
+        public void EditEmployee(int id, Employee updatedEmployee)
         {
-            employees.Remove(employee);
-        }
-
-        public void UpdateEmployee(Employee employee)
-        {
-            // Знайти та оновити співробітника
-            var existing = employees.FirstOrDefault(e => e.Id == employee.Id);
-            if (existing != null)
+            var employee = employees.Find(e => e.Id == id);
+            if (employee != null)
             {
-                var index = employees.IndexOf(existing);
-                employees[index] = employee;
+                int index = employees.IndexOf(employee);
+                employees[index] = updatedEmployee;
+                SaveEmployees();
             }
         }
 
-        public List<Employee> SearchEmployees(Func<Employee, bool> predicate)
+        public void DeleteEmployee(int id)
         {
-            return employees.Where(predicate).ToList();
+            employees.RemoveAll(e => e.Id == id);
+            SaveEmployees();
         }
 
-        // Інші методи, наприклад, завантаження і збереження з Excel — додаємо пізніше
+        public void SaveEmployees()
+        {
+            //FileService.SaveEmployeesToExcel(employees);
+        }
     }
 }

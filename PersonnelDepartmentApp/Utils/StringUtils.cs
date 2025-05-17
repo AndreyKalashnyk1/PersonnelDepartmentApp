@@ -3,9 +3,9 @@ using System.Text.RegularExpressions;
 
 namespace PersonnelDepartmentApp.Utils
 {
-    /// <summary>
+    
     /// Клас з методами для валідації введених користувачем даних.
-    /// </summary>
+    
     public static class ValidationUtils
     {
         public static bool IsValidPassport(string passportNumber)

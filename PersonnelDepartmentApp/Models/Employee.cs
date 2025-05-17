@@ -19,7 +19,7 @@ namespace PersonnelDepartmentApp.Models
         public Position Position { get; set; }
         public Department Department { get; set; }
         public DateTime HireDate { get; set; }
-        public DateTime LastPromotionDate { get; set; }
+        public DateTime? TerminationDate { get; set; }
         public decimal Salary { get; set; }
     }
 

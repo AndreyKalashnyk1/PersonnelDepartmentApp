@@ -2,14 +2,14 @@
 {
     partial class MainForm
     {
-        /// <summary>
+        
         /// Required designer variable.
-        /// </summary>
+        
         private System.ComponentModel.IContainer components = null;
 
-        /// <summary>
+        
         /// Clean up any resources being used.
-        /// </summary>
+        
         /// <param name="disposing">true if managed resources should be disposed; otherwise, false.</param>
         protected override void Dispose(bool disposing)
         {
@@ -22,10 +22,10 @@
 
         #region Windows Form Designer generated code
 
-        /// <summary>
+        
         /// Required method for Designer support - do not modify
         /// the contents of this method with the code editor.
-        /// </summary>
+        
         private void InitializeComponent()
         {
             this.dgvEmployees = new System.Windows.Forms.DataGridView();
@@ -40,19 +40,19 @@
             // 
             // dgvEmployees
             // 
-            this.dgvEmployees.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left)
+            this.dgvEmployees.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.dgvEmployees.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.dgvEmployees.Location = new System.Drawing.Point(12, 102);
+            this.dgvEmployees.Location = new System.Drawing.Point(12, 48);
             this.dgvEmployees.Name = "dgvEmployees";
             this.dgvEmployees.RowHeadersWidth = 62;
             this.dgvEmployees.RowTemplate.Height = 28;
-            this.dgvEmployees.Size = new System.Drawing.Size(900, 500);
+            this.dgvEmployees.Size = new System.Drawing.Size(1171, 550);
             this.dgvEmployees.TabIndex = 0;
             // 
             // btnAddEmployee
             // 
-            this.btnAddEmployee.Location = new System.Drawing.Point(12, 623);
+            this.btnAddEmployee.Location = new System.Drawing.Point(12, 604);
             this.btnAddEmployee.Name = "btnAddEmployee";
             this.btnAddEmployee.Size = new System.Drawing.Size(150, 69);
             this.btnAddEmployee.TabIndex = 1;
@@ -61,7 +61,7 @@
             // 
             // btnEditEmployee
             // 
-            this.btnEditEmployee.Location = new System.Drawing.Point(172, 623);
+            this.btnEditEmployee.Location = new System.Drawing.Point(172, 604);
             this.btnEditEmployee.Name = "btnEditEmployee";
             this.btnEditEmployee.Size = new System.Drawing.Size(139, 69);
             this.btnEditEmployee.TabIndex = 2;
@@ -70,7 +70,7 @@
             // 
             // btnDeleteEmployee
             // 
-            this.btnDeleteEmployee.Location = new System.Drawing.Point(332, 623);
+            this.btnDeleteEmployee.Location = new System.Drawing.Point(332, 604);
             this.btnDeleteEmployee.Name = "btnDeleteEmployee";
             this.btnDeleteEmployee.Size = new System.Drawing.Size(150, 69);
             this.btnDeleteEmployee.TabIndex = 3;
@@ -79,23 +79,24 @@
             // 
             // btnRefresh
             // 
-            this.btnRefresh.Location = new System.Drawing.Point(762, 623);
+            this.btnRefresh.Location = new System.Drawing.Point(1033, 604);
             this.btnRefresh.Name = "btnRefresh";
             this.btnRefresh.Size = new System.Drawing.Size(150, 69);
             this.btnRefresh.TabIndex = 4;
             this.btnRefresh.Text = "Оновити список";
             this.btnRefresh.UseVisualStyleBackColor = true;
+            this.btnRefresh.Click += new System.EventHandler(this.btnRefresh_Click_1);
             // 
             // txtSearch
             // 
-            this.txtSearch.Location = new System.Drawing.Point(12, 12);
+            this.txtSearch.Location = new System.Drawing.Point(12, 8);
             this.txtSearch.Name = "txtSearch";
             this.txtSearch.Size = new System.Drawing.Size(300, 34);
             this.txtSearch.TabIndex = 5;
             // 
             // btnSearch
             // 
-            this.btnSearch.Location = new System.Drawing.Point(332, 12);
+            this.btnSearch.Location = new System.Drawing.Point(332, 8);
             this.btnSearch.Name = "btnSearch";
             this.btnSearch.Size = new System.Drawing.Size(108, 34);
             this.btnSearch.TabIndex = 6;
@@ -106,7 +107,7 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(11F, 28F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(1195, 902);
+            this.ClientSize = new System.Drawing.Size(1195, 681);
             this.Controls.Add(this.btnSearch);
             this.Controls.Add(this.txtSearch);
             this.Controls.Add(this.btnRefresh);
@@ -115,7 +116,10 @@
             this.Controls.Add(this.btnAddEmployee);
             this.Controls.Add(this.dgvEmployees);
             this.Font = new System.Drawing.Font("Segoe UI", 10F);
+            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog;
             this.Margin = new System.Windows.Forms.Padding(4);
+            this.MaximizeBox = false;
+            this.MinimizeBox = false;
             this.Name = "MainForm";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Відділ кадрів";
