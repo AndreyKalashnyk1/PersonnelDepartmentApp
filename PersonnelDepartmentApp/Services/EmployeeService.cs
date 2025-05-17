@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using PersonnelDepartmentApp.Models;
 using PersonnelDepartmentApp.Utils;
 
@@ -46,5 +47,12 @@ namespace PersonnelDepartmentApp.Services
         {
             //FileService.SaveEmployeesToExcel(employees);
         }
+
+        public int GetNextEmployeeId()
+        {
+            if (employees.Count == 0) return 1;
+            return employees.Max(e => e.Id) + 1;
+        }
+
     }
 }

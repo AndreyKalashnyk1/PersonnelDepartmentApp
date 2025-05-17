@@ -6,7 +6,7 @@ using PersonnelDepartmentApp.Models;
 
 namespace PersonnelDepartmentApp.Services
 {
-    public static class FileService
+    public class FileService
     {
         private static readonly string filePath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Resources", "Excel", "employees.xlsx");
 
@@ -48,6 +48,27 @@ namespace PersonnelDepartmentApp.Services
             }
 
             return employees;
+        }
+
+        public void AppendEmployee(Employee employee)
+        {
+            // Формуємо рядок для додавання в файл
+            string terminationDate = employee.TerminationDate.HasValue
+                ? employee.TerminationDate.Value.ToString("dd.MM.yyyy")
+                : "";
+
+            string line = $"{employee.Id};" +
+                          $"{employee.LastName};" +
+                          $"{employee.FirstName};" +
+                          $"{employee.MiddleName};" +
+                          $"{employee.BirthDate:dd.MM.yyyy};" +
+                          $"{employee.PassportNumber};" +
+                          $"{employee.HireDate:dd.MM.yyyy};" +
+                          $"{terminationDate};" +
+                          $"{employee.Salary}";
+
+            // Додаємо рядок у файл
+            File.AppendAllText(filePath, line + Environment.NewLine);
         }
     }
 }
