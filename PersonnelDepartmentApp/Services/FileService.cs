@@ -1,16 +1,18 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Globalization;
 using System.IO;
+using Excel = Microsoft.Office.Interop.Excel;
 using PersonnelDepartmentApp.Models;
 
 namespace PersonnelDepartmentApp.Services
 {
     public class FileService
     {
-        private static readonly string filePath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Resources", "Excel", "employees.xlsx");
+        // Відносний шлях до файлу поруч з .exe файлом
+        private static readonly string filePath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "employees1.xlsx");
 
-        public static List<Employee> LoadEmployeesFromExcel()
+        // Метод завантаження даних з Excel
+        public List<Employee> LoadEmployeesFromExcel()
         {
             var employees = new List<Employee>();
 
@@ -20,55 +22,112 @@ namespace PersonnelDepartmentApp.Services
                 return employees;
             }
 
-            var lines = File.ReadAllLines(filePath);
-            for (int i = 1; i < lines.Length; i++)
-            {
-                var data = lines[i].Split('\t'); // Розділювач табуляція
+            Excel.Application excelApp = null;
+            Excel.Workbook workbook = null;
+            Excel.Worksheet worksheet = null;
 
-                try
+            try
+            {
+                excelApp = new Excel.Application();
+                workbook = excelApp.Workbooks.Open(filePath);
+                worksheet = workbook.Sheets[1];
+
+                Excel.Range usedRange = worksheet.UsedRange;
+                int rowCount = usedRange.Rows.Count;
+
+                for (int row = 2; row <= rowCount; row++) 
                 {
-                    var employee = new Employee
+                    try
                     {
-                        Id = int.Parse(data[0]),
-                        LastName = data[1],
-                        FirstName = data[2],
-                        MiddleName = data[3],
-                        BirthDate = DateTime.ParseExact(data[4], "dd.MM.yyyy", CultureInfo.InvariantCulture),
-                        PassportNumber = data[5],
-                        HireDate = DateTime.ParseExact(data[9], "dd.MM.yyyy", CultureInfo.InvariantCulture),
-                        TerminationDate = string.IsNullOrWhiteSpace(data[10]) ? (DateTime?)null : DateTime.ParseExact(data[10], "dd.MM.yyyy", CultureInfo.InvariantCulture),
-                        Salary = decimal.Parse(data[11])
-                    };
-                    employees.Add(employee);
+                        var employee = new Employee
+                        {
+                            Id = int.Parse(usedRange.Cells[row, 1].Text),
+                            LastName = usedRange.Cells[row, 2].Text,
+                            FirstName = usedRange.Cells[row, 3].Text,
+                            MiddleName = usedRange.Cells[row, 4].Text,
+                            BirthDate = DateTime.Parse(usedRange.Cells[row, 5].Text),
+                            PassportNumber = usedRange.Cells[row, 6].Text,
+                            HireDate = DateTime.Parse(usedRange.Cells[row, 7].Text),
+                            TerminationDate = string.IsNullOrWhiteSpace(usedRange.Cells[row, 8].Text)
+                                ? (DateTime?)null
+                                : DateTime.Parse(usedRange.Cells[row, 8].Text),
+                            Salary = decimal.Parse(usedRange.Cells[row, 9].Text)
+                        };
+
+                        employees.Add(employee);
+                    }
+                    catch (Exception ex)
+                    {
+                        Console.WriteLine($"Помилка обробки рядка {row}: {ex.Message}");
+                    }
                 }
-                catch (Exception ex)
-                {
-                    Console.WriteLine($"Помилка завантаження рядка {i + 1}: {ex.Message}");
-                }
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Помилка завантаження файлу: {ex.Message}");
+            }
+            finally
+            {
+                // Закриваємо Excel
+                workbook?.Close(false);
+                excelApp?.Quit();
             }
 
             return employees;
         }
 
-        public void AppendEmployee(Employee employee)
+        // Метод для збереження даних в Excel
+        public void SaveEmployeesToExcel(List<Employee> employees)
         {
-            // Формуємо рядок для додавання в файл
-            string terminationDate = employee.TerminationDate.HasValue
-                ? employee.TerminationDate.Value.ToString("dd.MM.yyyy")
-                : "";
+            Excel.Application excelApp = null;
+            Excel.Workbook workbook = null;
+            Excel.Worksheet worksheet = null;
 
-            string line = $"{employee.Id};" +
-                          $"{employee.LastName};" +
-                          $"{employee.FirstName};" +
-                          $"{employee.MiddleName};" +
-                          $"{employee.BirthDate:dd.MM.yyyy};" +
-                          $"{employee.PassportNumber};" +
-                          $"{employee.HireDate:dd.MM.yyyy};" +
-                          $"{terminationDate};" +
-                          $"{employee.Salary}";
+            try
+            {
+                excelApp = new Excel.Application();
+                workbook = excelApp.Workbooks.Add();
+                worksheet = workbook.Sheets[1];
 
-            // Додаємо рядок у файл
-            File.AppendAllText(filePath, line + Environment.NewLine);
+                // Додаємо заголовки
+                worksheet.Cells[1, 1].Value = "Id";
+                worksheet.Cells[1, 2].Value = "Прізвище";
+                worksheet.Cells[1, 3].Value = "Ім'я";
+                worksheet.Cells[1, 4].Value = "По батькові";
+                worksheet.Cells[1, 5].Value = "Дата народження";
+                worksheet.Cells[1, 6].Value = "Номер паспорта";
+                worksheet.Cells[1, 7].Value = "Дата прийняття";
+                worksheet.Cells[1, 8].Value = "Дата звільнення";
+                worksheet.Cells[1, 9].Value = "Зарплата";
+
+                // Додаємо дані працівників
+                int row = 2;
+                foreach (Employee employee in employees)
+                {
+                    worksheet.Cells[row, 1].Value = employee.Id;
+                    worksheet.Cells[row, 2].Value = employee.LastName;
+                    worksheet.Cells[row, 3].Value = employee.FirstName;
+                    worksheet.Cells[row, 4].Value = employee.MiddleName;
+                    worksheet.Cells[row, 5].Value = employee.BirthDate.ToString("dd.MM.yyyy");
+                    worksheet.Cells[row, 6].Value = employee.PassportNumber;
+                    worksheet.Cells[row, 7].Value = employee.HireDate.ToString("dd.MM.yyyy");
+                    worksheet.Cells[row, 8].Value = employee.TerminationDate?.ToString("dd.MM.yyyy") ?? "";
+                    worksheet.Cells[row, 9].Value = employee.Salary.ToString("F2");
+                    row++;
+                }
+
+                // Зберігаємо файл
+                workbook.SaveAs(filePath);
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine($"Помилка збереження файлу: {ex.Message}");
+            }
+            finally
+            {
+                workbook?.Close(false);
+                excelApp?.Quit();
+            }
         }
     }
 }

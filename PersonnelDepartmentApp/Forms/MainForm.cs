@@ -3,6 +3,7 @@ using System.Linq;
 using System.Windows.Forms;
 using PersonnelDepartmentApp.Models;
 using PersonnelDepartmentApp.Services;
+using static PersonnelDepartmentApp.Services.FileService;
 
 namespace PersonnelDepartmentApp
 {
@@ -11,13 +12,19 @@ namespace PersonnelDepartmentApp
         private EmployeeService employeeService = new EmployeeService();
         private FileService fileService;
 
+
         public MainForm()
         {
             InitializeComponent();
             groupBoxAddEmployee.Visible = false;
-            fileService = new FileService();
-            // Прив'язка обробника події до кнопки збереження працівника
-            btnSaveEmployee.Click += btnSaveEmployee_Click;
+            employeeService = new EmployeeService();
+
+            // Прив'язка обробників подій
+            //btnSaveEmployee.Click += btnSaveEmployee_Click;
+            btnSave.Click += btnSave_Click;
+            btnAddEmployee.Click += btnAddEmployee_Click;
+            btnClearFields.Click += btnClearFields_Click;
+            btnRefresh.Click += btnRefresh_Click_1;
         }
 
         private void MainForm_Load(object sender, EventArgs e)
@@ -38,7 +45,7 @@ namespace PersonnelDepartmentApp
                 Номер_паспорта = e.PassportNumber,
                 Дата_прийняття = e.HireDate.ToString("dd.MM.yyyy"),
                 Дата_звільнення = e.TerminationDate?.ToString("dd.MM.yyyy") ?? "Працює",
-                Зарплата = e.Salary
+                Зарплата = e.Salary.ToString("F2")
             }).ToList();
 
             dgvEmployees.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.AllCells;
@@ -75,45 +82,6 @@ namespace PersonnelDepartmentApp
             dtpTerminationDate.Checked = false; // Зробити поле дати звільнення необов'язковим
         }
 
-        // Збереження нового працівника
-        private void btnSaveEmployee_Click(object sender, EventArgs e)
-        {
-            try
-            {
-                // Створюємо нового працівника
-                Employee newEmployee = new Employee
-                {
-                    Id = employeeService.GetNextEmployeeId(),
-                    LastName = txtLastName.Text,
-                    FirstName = txtFirstName.Text,
-                    MiddleName = txtMiddleName.Text,
-                    BirthDate = dtpBirthDate.Value,
-                    PassportNumber = txtPassportNumber.Text,
-                    HireDate = dtpHireDate.Value,
-                    TerminationDate = dtpTerminationDate.Checked ? dtpTerminationDate.Value : (DateTime?)null,
-                    Salary = decimal.Parse(txtSalary.Text)
-                };
-
-                // Додаємо працівника до списку і зберігаємо в файл
-                employeeService.AddEmployee(newEmployee);
-                fileService.AppendEmployee(newEmployee);
-
-                // Оновлюємо таблицю
-                LoadEmployees();
-
-                // Закриваємо панель додавання
-                groupBoxAddEmployee.Visible = false;
-                btnAddEmployee.Enabled = true;
-                ClearEmployeeForm();
-
-                MessageBox.Show("Працівника успішно додано!", "Успіх", MessageBoxButtons.OK, MessageBoxIcon.Information);
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show($"Помилка додавання працівника: {ex.Message}", "Помилка", MessageBoxButtons.OK, MessageBoxIcon.Error);
-            }
-        }
-
         private void btnRefresh_Click_1(object sender, EventArgs e)
         {
             LoadEmployees();
@@ -142,6 +110,55 @@ namespace PersonnelDepartmentApp
         private void textBox4_TextChanged(object sender, EventArgs e)
         {
 
+        }
+
+        private void btnSave_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                employeeService.SaveEmployees();
+                MessageBox.Show("Дані успішно збережені!", "Успіх", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Помилка збереження даних: {ex.Message}", "Помилка", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
+
+        private void btnSaveEmployee_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                // Створюємо нового працівника
+                Employee newEmployee = new Employee
+                {
+                    LastName = txtLastName.Text,
+                    FirstName = txtFirstName.Text,
+                    MiddleName = txtMiddleName.Text,
+                    BirthDate = dtpBirthDate.Value,
+                    PassportNumber = txtPassportNumber.Text,
+                    HireDate = dtpHireDate.Value,
+                    TerminationDate = dtpTerminationDate.Checked ? dtpTerminationDate.Value : (DateTime?)null,
+                    Salary = decimal.Parse(txtSalary.Text)
+                };
+
+                // Додаємо працівника
+                employeeService.AddEmployee(newEmployee);
+
+                // Оновлюємо таблицю
+                LoadEmployees();
+
+                // Закриваємо панель додавання
+                groupBoxAddEmployee.Visible = false;
+                btnAddEmployee.Enabled = true;
+                ClearEmployeeForm();
+
+                MessageBox.Show("Працівника успішно додано!", "Успіх", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Помилка додавання працівника: {ex.Message}", "Помилка", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
         }
     }
 }
