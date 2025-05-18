@@ -54,5 +54,11 @@ namespace PersonnelDepartmentApp.Services
         {
             return employees.Count == 0 ? 1 : employees.Max(e => e.Id) + 1;
         }
+
+        public Employee GetEmployeeById(int id)
+        {
+            return employees.FirstOrDefault(e => e.Id == id);
+        }
+
     }
 }

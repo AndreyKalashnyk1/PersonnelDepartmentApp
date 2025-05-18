@@ -25,6 +25,11 @@ namespace PersonnelDepartmentApp
             btnAddEmployee.Click += btnAddEmployee_Click;
             btnClearFields.Click += btnClearFields_Click;
             btnRefresh.Click += btnRefresh_Click_1;
+            btnEditEmployee.Click += btnEditEmployee_Click;
+            btnDeleteEmployee.Click += btnDeleteEmployee_Click;
+            btnSearch.Click += btnSearch_Click;
+            txtSearch.TextChanged += txtSearch_TextChanged;
+
         }
 
         private void MainForm_Load(object sender, EventArgs e)
@@ -87,6 +92,19 @@ namespace PersonnelDepartmentApp
             LoadEmployees();
         }
 
+        private void btnSave_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                employeeService.SaveEmployees();
+                MessageBox.Show("Дані успішно збережені!", "Успіх", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Помилка збереження даних: {ex.Message}", "Помилка", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
+
         private void groupBox1_Enter(object sender, EventArgs e)
         {
 
@@ -112,52 +130,167 @@ namespace PersonnelDepartmentApp
 
         }
 
-        private void btnSave_Click(object sender, EventArgs e)
+        // Відкриття панелі редагування працівника
+        private void btnEditEmployee_Click(object sender, EventArgs e)
         {
-            try
+            if (dgvEmployees.SelectedRows.Count == 0)
             {
-                employeeService.SaveEmployees();
-                MessageBox.Show("Дані успішно збережені!", "Успіх", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                MessageBox.Show("Виберіть працівника для редагування.", "Увага", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return;
             }
-            catch (Exception ex)
+
+            // Отримуємо ID вибраного працівника
+            int employeeId = Convert.ToInt32(dgvEmployees.SelectedRows[0].Cells["ID"].Value);
+            Employee employee = employeeService.GetEmployeeById(employeeId);
+
+            if (employee == null)
             {
-                MessageBox.Show($"Помилка збереження даних: {ex.Message}", "Помилка", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show("Працівник не знайдений.", "Помилка", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return;
+            }
+
+            // Заповнюємо поля даними працівника
+            txtLastName.Text = employee.LastName;
+            txtFirstName.Text = employee.FirstName;
+            txtMiddleName.Text = employee.MiddleName;
+            txtPassportNumber.Text = employee.PassportNumber;
+            dtpBirthDate.Value = employee.BirthDate;
+            dtpHireDate.Value = employee.HireDate;
+            txtSalary.Text = employee.Salary.ToString();
+            if (employee.TerminationDate.HasValue)
+            {
+                dtpTerminationDate.Value = employee.TerminationDate.Value;
+                dtpTerminationDate.Checked = true;
+            }
+            else
+            {
+                dtpTerminationDate.Checked = false;
+            }
+
+            // Міняємо заголовок панелі та показуємо її
+            groupBoxAddEmployee.Text = "Редагування працівника";
+            groupBoxAddEmployee.Visible = true;
+            btnAddEmployee.Enabled = false;
+
+            // Зберігаємо ID працівника для редагування
+            btnSaveEmployee.Tag = employeeId;
+        }
+
+        // Видалення працівника
+        private void btnDeleteEmployee_Click(object sender, EventArgs e)
+        {
+            if (dgvEmployees.SelectedRows.Count == 0)
+            {
+                MessageBox.Show("Виберіть працівника для видалення.", "Увага", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return;
+            }
+
+            // Отримуємо ID вибраного працівника
+            int employeeId = Convert.ToInt32(dgvEmployees.SelectedRows[0].Cells["ID"].Value);
+
+            DialogResult result = MessageBox.Show("Ви впевнені, що хочете видалити цього працівника?", "Підтвердження", MessageBoxButtons.YesNo, MessageBoxIcon.Warning);
+            if (result == DialogResult.Yes)
+            {
+                employeeService.DeleteEmployee(employeeId);
+                LoadEmployees();
+                MessageBox.Show("Працівника успішно видалено!", "Успіх", MessageBoxButtons.OK, MessageBoxIcon.Information);
             }
         }
 
+        // Оновлення працівника
         private void btnSaveEmployee_Click(object sender, EventArgs e)
         {
             try
             {
-                // Створюємо нового працівника
-                Employee newEmployee = new Employee
+                int? employeeId = btnSaveEmployee.Tag as int?;
+                if (employeeId.HasValue)
                 {
-                    LastName = txtLastName.Text,
-                    FirstName = txtFirstName.Text,
-                    MiddleName = txtMiddleName.Text,
-                    BirthDate = dtpBirthDate.Value,
-                    PassportNumber = txtPassportNumber.Text,
-                    HireDate = dtpHireDate.Value,
-                    TerminationDate = dtpTerminationDate.Checked ? dtpTerminationDate.Value : (DateTime?)null,
-                    Salary = decimal.Parse(txtSalary.Text)
-                };
+                    // Оновлення існуючого працівника
+                    Employee updatedEmployee = new Employee
+                    {
+                        Id = employeeId.Value,
+                        LastName = txtLastName.Text,
+                        FirstName = txtFirstName.Text,
+                        MiddleName = txtMiddleName.Text,
+                        BirthDate = dtpBirthDate.Value,
+                        PassportNumber = txtPassportNumber.Text,
+                        HireDate = dtpHireDate.Value,
+                        TerminationDate = dtpTerminationDate.Checked ? dtpTerminationDate.Value : (DateTime?)null,
+                        Salary = decimal.Parse(txtSalary.Text)
+                    };
 
-                // Додаємо працівника
-                employeeService.AddEmployee(newEmployee);
+                    employeeService.EditEmployee(employeeId.Value, updatedEmployee);
+                    btnSaveEmployee.Tag = null;
+                    MessageBox.Show("Працівника успішно оновлено!", "Успіх", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                }
+                else
+                {
+                    // Додавання нового працівника
+                    Employee newEmployee = new Employee
+                    {
+                        Id = employeeService.GetNextEmployeeId(),
+                        LastName = txtLastName.Text,
+                        FirstName = txtFirstName.Text,
+                        MiddleName = txtMiddleName.Text,
+                        BirthDate = dtpBirthDate.Value,
+                        PassportNumber = txtPassportNumber.Text,
+                        HireDate = dtpHireDate.Value,
+                        TerminationDate = dtpTerminationDate.Checked ? dtpTerminationDate.Value : (DateTime?)null,
+                        Salary = decimal.Parse(txtSalary.Text)
+                    };
+
+                    employeeService.AddEmployee(newEmployee);
+                    MessageBox.Show("Працівника успішно додано!", "Успіх", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                }
 
                 // Оновлюємо таблицю
                 LoadEmployees();
 
-                // Закриваємо панель додавання
+                // Закриваємо панель додавання/редагування
                 groupBoxAddEmployee.Visible = false;
                 btnAddEmployee.Enabled = true;
                 ClearEmployeeForm();
-
-                MessageBox.Show("Працівника успішно додано!", "Успіх", MessageBoxButtons.OK, MessageBoxIcon.Information);
             }
             catch (Exception ex)
             {
-                MessageBox.Show($"Помилка додавання працівника: {ex.Message}", "Помилка", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                MessageBox.Show($"Помилка збереження працівника: {ex.Message}", "Помилка", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
+
+        // Обробник кнопки пошуку
+        private void btnSearch_Click(object sender, EventArgs e)
+        {
+            string searchText = txtSearch.Text.Trim().ToLower();
+
+            var filteredEmployees = employeeService.GetEmployees()
+                .Where(emp =>
+                    emp.FirstName.ToLower().Contains(searchText) ||
+                    emp.LastName.ToLower().Contains(searchText) ||
+                    emp.MiddleName.ToLower().Contains(searchText) ||
+                    emp.PassportNumber.ToLower().Contains(searchText) ||
+                    emp.Id.ToString().Contains(searchText))
+                .Select(emp => new
+                {
+                    ID = emp.Id,
+                    Прізвище = emp.LastName,
+                    Ім_я = emp.FirstName,
+                    По_батькові = emp.MiddleName,
+                    Дата_народження = emp.BirthDate.ToString("dd.MM.yyyy"),
+                    Номер_паспорта = emp.PassportNumber,
+                    Дата_прийняття = emp.HireDate.ToString("dd.MM.yyyy"),
+                    Дата_звільнення = emp.TerminationDate?.ToString("dd.MM.yyyy") ?? "Працює",
+                    Зарплата = emp.Salary
+                }).ToList();
+
+            dgvEmployees.DataSource = filteredEmployees;
+        }
+
+        // Автоматичне скидання фільтра при очищенні поля пошуку
+        private void txtSearch_TextChanged(object sender, EventArgs e)
+        {
+            if (string.IsNullOrWhiteSpace(txtSearch.Text))
+            {
+                LoadEmployees();
             }
         }
     }

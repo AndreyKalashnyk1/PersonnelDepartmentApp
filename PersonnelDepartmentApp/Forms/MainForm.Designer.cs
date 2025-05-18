@@ -89,6 +89,7 @@
             this.btnEditEmployee.TabIndex = 2;
             this.btnEditEmployee.Text = "Редагувати співробітника";
             this.btnEditEmployee.UseVisualStyleBackColor = true;
+            this.btnEditEmployee.Click += new System.EventHandler(this.btnEditEmployee_Click);
             // 
             // btnDeleteEmployee
             // 
@@ -98,6 +99,7 @@
             this.btnDeleteEmployee.TabIndex = 3;
             this.btnDeleteEmployee.Text = "Видалити співробітника";
             this.btnDeleteEmployee.UseVisualStyleBackColor = true;
+            this.btnDeleteEmployee.Click += new System.EventHandler(this.btnDeleteEmployee_Click);
             // 
             // btnRefresh
             // 
@@ -115,6 +117,7 @@
             this.txtSearch.Name = "txtSearch";
             this.txtSearch.Size = new System.Drawing.Size(300, 34);
             this.txtSearch.TabIndex = 5;
+            this.txtSearch.TextChanged += new System.EventHandler(this.txtSearch_TextChanged);
             // 
             // btnSearch
             // 
@@ -124,6 +127,7 @@
             this.btnSearch.TabIndex = 6;
             this.btnSearch.Text = "Пошук";
             this.btnSearch.UseVisualStyleBackColor = true;
+            this.btnSearch.Click += new System.EventHandler(this.btnSearch_Click);
             // 
             // groupBoxAddEmployee
             // 
@@ -169,7 +173,7 @@
             this.btnSaveEmployee.Name = "btnSaveEmployee";
             this.btnSaveEmployee.Size = new System.Drawing.Size(150, 69);
             this.btnSaveEmployee.TabIndex = 16;
-            this.btnSaveEmployee.Text = "Додати працівника";
+            this.btnSaveEmployee.Text = "Зберегти";
             this.btnSaveEmployee.UseVisualStyleBackColor = true;
             this.btnSaveEmployee.Click += new System.EventHandler(this.btnSaveEmployee_Click);
             // 
