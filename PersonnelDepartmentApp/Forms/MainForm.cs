@@ -13,23 +13,15 @@ namespace PersonnelDepartmentApp
         private FileService fileService;
 
 
+
+
         public MainForm()
         {
             InitializeComponent();
             groupBoxAddEmployee.Visible = false;
             employeeService = new EmployeeService();
-
-            // Прив'язка обробників подій
-            //btnSaveEmployee.Click += btnSaveEmployee_Click;
-            btnSave.Click += btnSave_Click;
-            btnAddEmployee.Click += btnAddEmployee_Click;
-            btnClearFields.Click += btnClearFields_Click;
-            btnRefresh.Click += btnRefresh_Click_1;
-            btnEditEmployee.Click += btnEditEmployee_Click;
-            btnDeleteEmployee.Click += btnDeleteEmployee_Click;
-            btnSearch.Click += btnSearch_Click;
-            txtSearch.TextChanged += txtSearch_TextChanged;
-
+            txtSearch.KeyDown += TxtSearch_KeyDown;
+            txtSalary.KeyPress += TxtSalary_KeyPress;
         }
 
         private void MainForm_Load(object sender, EventArgs e)
@@ -133,14 +125,20 @@ namespace PersonnelDepartmentApp
         // Відкриття панелі редагування працівника
         private void btnEditEmployee_Click(object sender, EventArgs e)
         {
+            //if (dgvEmployees.SelectedRows.Count == 0)
+            if (dgvEmployees.RowCount <= 0)
+            {
+                //MessageBox.Show("Виберіть працівника для редагування.", "Увага", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                MessageBox.Show("Список співробітників порожній, натисніть кнопку <<Оновити список>>.", "Увага", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return;
+            }
             if (dgvEmployees.SelectedRows.Count == 0)
             {
                 MessageBox.Show("Виберіть працівника для редагування.", "Увага", MessageBoxButtons.OK, MessageBoxIcon.Warning);
                 return;
             }
-
-            // Отримуємо ID вибраного працівника
-            int employeeId = Convert.ToInt32(dgvEmployees.SelectedRows[0].Cells["ID"].Value);
+                // Отримуємо ID вибраного працівника
+                int employeeId = Convert.ToInt32(dgvEmployees.SelectedRows[0].Cells["ID"].Value);
             Employee employee = employeeService.GetEmployeeById(employeeId);
 
             if (employee == null)
@@ -293,5 +291,37 @@ namespace PersonnelDepartmentApp
                 LoadEmployees();
             }
         }
+        private void TxtSearch_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.KeyCode == Keys.Enter)
+            {
+                btnSearch.PerformClick();
+                e.Handled = true;
+                e.SuppressKeyPress = true;
+            }
+        }
+        private void TxtSalary_KeyPress(object sender, KeyPressEventArgs e)
+        {
+            // Дозволяємо тільки цифри, одну кому або крапку, і Backspace
+            char ch = e.KeyChar;
+
+            if (!char.IsDigit(ch) && ch != '\b' && ch != ',' && ch != '.')
+            {
+                e.Handled = true;
+            }
+
+            // Забороняємо більше однієї крапки/коми
+            if ((ch == ',' || ch == '.') && ((TextBox)sender).Text.Contains(",") || ((TextBox)sender).Text.Contains("."))
+            {
+                e.Handled = true;
+            }
+
+            // Забороняємо мінус у будь-якій формі
+            if (ch == '-')
+            {
+                e.Handled = true;
+            }
+        }
+
     }
 }
