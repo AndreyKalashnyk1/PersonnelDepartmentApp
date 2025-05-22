@@ -10,6 +10,9 @@ namespace PersonnelDepartmentApp.Services
     {
         // Відносний шлях до файлу поруч з .exe файлом
         private static readonly string filePath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "employees1.xlsx");
+        private static readonly string positionsFilePath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "positions.xlsx");
+        private static readonly string departmentsFilePath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "departments.xlsx");
+
 
         // Метод завантаження даних з Excel
         public List<Employee> LoadEmployeesFromExcel()
@@ -54,7 +57,10 @@ namespace PersonnelDepartmentApp.Services
                             Salary = decimal.Parse(usedRange.Cells[row, 9].Text),
                             DepartmentId = string.IsNullOrWhiteSpace(usedRange.Cells[row, 10].Text)
                                 ? (int?)null
-                                : int.Parse(usedRange.Cells[row, 10].Text)
+                                : int.Parse(usedRange.Cells[row, 10].Text),
+                            PositionId = string.IsNullOrWhiteSpace(usedRange.Cells[row, 11].Text)
+                                ? (int?)null
+                                : int.Parse(usedRange.Cells[row, 11].Text)
                         };
 
                         employees.Add(employee);
@@ -103,6 +109,8 @@ namespace PersonnelDepartmentApp.Services
                 worksheet.Cells[1, 8].Value = "Дата звільнення";
                 worksheet.Cells[1, 9].Value = "Зарплата";
                 worksheet.Cells[1, 10].Value = "Підрозділ ID"; // нова колонка
+                worksheet.Cells[1, 11].Value = "Посада ID"; // нова колонка
+
 
                 // Дані
                 int row = 2;
@@ -118,6 +126,7 @@ namespace PersonnelDepartmentApp.Services
                     worksheet.Cells[row, 8].Value = employee.TerminationDate?.ToString("dd.MM.yyyy") ?? "";
                     worksheet.Cells[row, 9].Value = employee.Salary.ToString("F2");
                     worksheet.Cells[row, 10].Value = employee.DepartmentId?.ToString() ?? ""; // нове поле
+                    worksheet.Cells[row, 11].Value = employee.PositionId?.ToString() ?? "";
                     row++;
                 }
 
@@ -137,8 +146,7 @@ namespace PersonnelDepartmentApp.Services
         public List<Department> LoadDepartmentsFromExcel()
         {
             var departments = new List<Department>();
-            string path = "departments.xlsx";
-
+            string path = departmentsFilePath;
             if (!File.Exists(path)) return departments;
 
             var excelApp = new Excel.Application();
@@ -178,7 +186,67 @@ namespace PersonnelDepartmentApp.Services
                 row++;
             }
 
-            workbook.SaveAs("departments.xlsx");
+            workbook.SaveAs(departmentsFilePath);
+            workbook.Close(false);
+            excelApp.Quit();
+        }
+        public List<Position> LoadPositionsFromExcel()
+        {
+            var positions = new List<Position>();
+            if (!File.Exists(positionsFilePath)) return positions;
+
+            var excelApp = new Excel.Application();
+            var workbook = excelApp.Workbooks.Open(positionsFilePath);
+            var sheet = workbook.Sheets[1];
+            var range = sheet.UsedRange;
+            int rowCount = range.Rows.Count;
+
+            for (int row = 2; row <= rowCount; row++)
+            {
+                try
+                {
+                    positions.Add(new Position
+                    {
+                        Id = int.Parse(range.Cells[row, 1].Text),
+                        Title = range.Cells[row, 2].Text,
+                        Salary = decimal.Parse(range.Cells[row, 3].Text),
+                        Requirements = range.Cells[row, 4].Text
+                    });
+                }
+                catch (Exception ex)
+                {
+                    Console.WriteLine($"Помилка обробки рядка {row}: {ex.Message}");
+                }
+            }
+
+            workbook.Close(false);
+            excelApp.Quit();
+
+            return positions;
+        }
+        public void SavePositionsToExcel(List<Position> positions)
+        {
+            var excelApp = new Excel.Application();
+            var workbook = excelApp.Workbooks.Add();
+            var sheet = workbook.Sheets[1];
+
+            // Заголовки
+            sheet.Cells[1, 1].Value = "Id";
+            sheet.Cells[1, 2].Value = "Назва";
+            sheet.Cells[1, 3].Value = "Зарплата";
+            sheet.Cells[1, 4].Value = "Вимоги";
+
+            int row = 2;
+            foreach (var p in positions)
+            {
+                sheet.Cells[row, 1].Value = p.Id;
+                sheet.Cells[row, 2].Value = p.Title;
+                sheet.Cells[row, 3].Value = p.Salary.ToString("F2");
+                sheet.Cells[row, 4].Value = p.Requirements;
+                row++;
+            }
+
+            workbook.SaveAs(positionsFilePath);
             workbook.Close(false);
             excelApp.Quit();
         }

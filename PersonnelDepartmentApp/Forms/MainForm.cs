@@ -56,5 +56,10 @@ namespace PersonnelDepartmentApp.Forms
         {
             DepartmentsForm.GetForm().ShowDialog();
         }
+
+        private void tsmPositions_Click(object sender, EventArgs e)
+        {
+            PositionsForm.GetForm().ShowDialog();
+        }
     }
 }

@@ -32,7 +32,7 @@
             this.співробітникиToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.tsmEmployees = new System.Windows.Forms.ToolStripMenuItem();
             this.tsn_Departments = new System.Windows.Forms.ToolStripMenuItem();
-            this.списокПосадToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.tsmPositions = new System.Windows.Forms.ToolStripMenuItem();
             this.освітаToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.формуванняНаказівToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.довідкаКористувачуToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -72,7 +72,7 @@
             this.співробітникиToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.tsmEmployees,
             this.tsn_Departments,
-            this.списокПосадToolStripMenuItem,
+            this.tsmPositions,
             this.освітаToolStripMenuItem});
             this.співробітникиToolStripMenuItem.Font = new System.Drawing.Font("Segoe UI", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.співробітникиToolStripMenuItem.Name = "співробітникиToolStripMenuItem";
@@ -94,11 +94,12 @@
             this.tsn_Departments.Text = "Підрозділи";
             this.tsn_Departments.Click += new System.EventHandler(this.tsn_Departments_Click);
             // 
-            // списокПосадToolStripMenuItem
+            // tsmPositions
             // 
-            this.списокПосадToolStripMenuItem.Name = "списокПосадToolStripMenuItem";
-            this.списокПосадToolStripMenuItem.Size = new System.Drawing.Size(270, 36);
-            this.списокПосадToolStripMenuItem.Text = "Посади";
+            this.tsmPositions.Name = "tsmPositions";
+            this.tsmPositions.Size = new System.Drawing.Size(270, 36);
+            this.tsmPositions.Text = "Посади";
+            this.tsmPositions.Click += new System.EventHandler(this.tsmPositions_Click);
             // 
             // освітаToolStripMenuItem
             // 
@@ -219,7 +220,7 @@
         private System.Windows.Forms.ToolStripMenuItem співробітникиToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem tsmEmployees;
         private System.Windows.Forms.ToolStripMenuItem tsn_Departments;
-        private System.Windows.Forms.ToolStripMenuItem списокПосадToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem tsmPositions;
         private System.Windows.Forms.ToolStripMenuItem освітаToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem формуванняНаказівToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem довідкаКористувачуToolStripMenuItem;

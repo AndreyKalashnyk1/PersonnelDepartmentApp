@@ -33,16 +33,7 @@ namespace PersonnelDepartmentApp
             dgvDepartments.ColumnHeaderMouseClick += dgvDepartments_ColumnHeaderMouseClick;
             dgvEmployeesWithDepartments.ColumnHeaderMouseClick += dgvEmployeesWithDepartments_ColumnHeaderMouseClick;
         }
-        private void LoadDepartments()
-        {
-            allDepartments = departmentService.GetDepartments();
-            displayedDepartments = new List<Department>(allDepartments);
-
-            dgvDepartments.DataSource = displayedDepartments
-                .Select(d => new { d.Id, d.Name })
-                .ToList();
-        }
-
+      
         public static DepartmentsForm GetForm()
         {
             DepartmentsForm ThisForm = new DepartmentsForm();
@@ -491,5 +482,64 @@ namespace PersonnelDepartmentApp
             lastSortedEmpColumn = null;
         }
 
+        private void btnRemoveDepartmentFromEmployee_Click(object sender, EventArgs e)
+        {
+            if (employees == null || employees.Count == 0)
+            {
+                MessageBox.Show("Список працівників порожній.", "Підказка", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                return;
+            }
+            if (dgvEmployeesWithDepartments.SelectedRows.Count == 0)
+            {
+                MessageBox.Show("Оберіть працівника для видалення підрозділу.", "Підказка", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return;
+            }
+
+            int employeeId = Convert.ToInt32(dgvEmployeesWithDepartments.SelectedRows[0].Cells[0].Value);
+            var selectedEmployee = employees.FirstOrDefault(emp => emp.Id == employeeId);
+            if (selectedEmployee == null)
+            {
+                MessageBox.Show("Працівник не знайдений.", "Помилка", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                return;
+            }
+
+            if (selectedEmployee.DepartmentId == null)
+            {
+                MessageBox.Show("У цього працівника вже не вказано підрозділ.", "Підказка", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                return;
+            }
+
+            var confirm = MessageBox.Show(
+                "Ви дійсно бажаєте видалити підрозділ у цього працівника?",
+                "Підтвердження",
+                MessageBoxButtons.YesNo,
+                MessageBoxIcon.Question);
+
+            if (confirm == DialogResult.Yes)
+            {
+                selectedEmployee.DepartmentId = null;
+                employeeService.SaveEmployees();
+
+                // Обновляем отображение
+                dgvEmployeesWithDepartments.DataSource = employees
+                    .Select(emp => new
+                    {
+                        emp.Id,
+                        FullName = $"{emp.LastName} {emp.FirstName} {emp.MiddleName}",
+                        Department = departments != null
+                            ? departments.FirstOrDefault(d => d.Id == emp.DepartmentId)?.Name ?? "—"
+                            : "—"
+                    })
+                    .ToList();
+
+                MessageBox.Show("Підрозділ у працівника видалено.", "Інформація", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                dgvEmployeesWithDepartments.Focus();
+            }
+        }
+
+        private void txtSearchDepartments_TextChanged_1(object sender, EventArgs e)
+        {
+            
+        }
     }
 }
