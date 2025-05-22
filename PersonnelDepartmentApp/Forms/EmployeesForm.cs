@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Windows.Forms;
 using PersonnelDepartmentApp.Models;
@@ -11,6 +12,8 @@ namespace PersonnelDepartmentApp
     {
         private EmployeeService employeeService = new EmployeeService();
         private FileService fileService;
+        private List<Employee> allEmployees;
+        private List<Employee> displayedEmployees;
 
         public static EmployeesForm GetForm()
         {
@@ -29,6 +32,7 @@ namespace PersonnelDepartmentApp
             employeeService = new EmployeeService();
             txtSearch.KeyDown += TxtSearch_KeyDown;
             txtSalary.KeyPress += TxtSalary_KeyPress;
+            dgvEmployees.ColumnHeaderMouseClick += dgvEmployees_ColumnHeaderMouseClick;
         }
 
         private void MainForm_Load(object sender, EventArgs e)
@@ -37,9 +41,10 @@ namespace PersonnelDepartmentApp
 
         private void LoadEmployees()
         {
-            var employees = employeeService.GetEmployees();
+            allEmployees = employeeService.GetEmployees();
+            displayedEmployees = new List<Employee>(allEmployees);
 
-            dgvEmployees.DataSource = employees.Select(e => new
+            dgvEmployees.DataSource = displayedEmployees.Select(e => new
             {
                 ID = e.Id,
                 Прізвище = e.LastName,
@@ -54,6 +59,93 @@ namespace PersonnelDepartmentApp
 
             dgvEmployees.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.AllCells;
         }
+
+        //Сортування
+        private string lastSortedColumn = null;
+        private bool lastSortAsc = true;
+
+
+        private void dgvEmployees_ColumnHeaderMouseClick(object sender, DataGridViewCellMouseEventArgs e)
+        {
+            string columnName = dgvEmployees.Columns[e.ColumnIndex].DataPropertyName;
+            if (lastSortedColumn == columnName)
+                lastSortAsc = !lastSortAsc;
+            else
+                lastSortAsc = true;
+            lastSortedColumn = columnName;
+
+            Func<Employee, object> keySelector;
+            switch (columnName)
+            {
+                case "ID":
+                    keySelector = emp => emp.Id;
+                    break;
+                case "Прізвище":
+                    keySelector = emp => emp.LastName;
+                    break;
+                case "Ім_я":
+                    keySelector = emp => emp.FirstName;
+                    break;
+                case "По_батькові":
+                    keySelector = emp => emp.MiddleName;
+                    break;
+                case "Дата_народження":
+                    keySelector = emp => emp.BirthDate;
+                    break;
+                case "Номер_паспорта":
+                    keySelector = emp => emp.PassportNumber;
+                    break;
+                case "Дата_прийняття":
+                    keySelector = emp => emp.HireDate;
+                    break;
+                case "Дата_звільнення":
+                    keySelector = emp => emp.TerminationDate ?? DateTime.MaxValue;
+                    break;
+                case "Зарплата":
+                    keySelector = emp => emp.Salary;
+                    break;
+                default:
+                    keySelector = emp => emp.Id;
+                    break;
+            }
+
+            if (lastSortAsc)
+                displayedEmployees = displayedEmployees.OrderBy(keySelector).ToList();
+            else
+                displayedEmployees = displayedEmployees.OrderByDescending(keySelector).ToList();
+
+            dgvEmployees.DataSource = displayedEmployees.Select(emp => new
+            {
+                ID = emp.Id,
+                Прізвище = emp.LastName,
+                Ім_я = emp.FirstName,
+                По_батькові = emp.MiddleName,
+                Дата_народження = emp.BirthDate.ToString("dd.MM.yyyy"),
+                Номер_паспорта = emp.PassportNumber,
+                Дата_прийняття = emp.HireDate.ToString("dd.MM.yyyy"),
+                Дата_звільнення = emp.TerminationDate?.ToString("dd.MM.yyyy") ?? "Працює",
+                Зарплата = emp.Salary.ToString("F2")
+            }).ToList();
+        }
+
+        private void btnResetSort_Click(object sender, EventArgs e)
+        {
+            displayedEmployees = new List<Employee>(allEmployees);
+            dgvEmployees.DataSource = displayedEmployees.Select(emp => new
+            {
+                ID = emp.Id,
+                Прізвище = emp.LastName,
+                Ім_я = emp.FirstName,
+                По_батькові = emp.MiddleName,
+                Дата_народження = emp.BirthDate.ToString("dd.MM.yyyy"),
+                Номер_паспорта = emp.PassportNumber,
+                Дата_прийняття = emp.HireDate.ToString("dd.MM.yyyy"),
+                Дата_звільнення = emp.TerminationDate?.ToString("dd.MM.yyyy") ?? "Працює",
+                Зарплата = emp.Salary.ToString("F2")
+            }).ToList();
+            lastSortedColumn = null;
+        }
+
 
         // Відкриття панелі додавання співробітника
         private void btnAddEmployee_Click(object sender, EventArgs e)
@@ -329,6 +421,5 @@ namespace PersonnelDepartmentApp
                 e.Handled = true;
             }
         }
-
     }
 }

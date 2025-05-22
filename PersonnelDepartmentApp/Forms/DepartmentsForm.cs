@@ -15,12 +15,34 @@ namespace PersonnelDepartmentApp
 
         private List<Department> departments;
         private List<Employee> employees;
+        private List<Department> allDepartments;
+        private List<Department> displayedDepartments;
+        private string lastSortedEmpColumn = null;
+        private bool lastEmpSortAsc = true;
+        private List<Employee> displayedEmployeesWithDepartments;
+
 
         public DepartmentsForm()
         {
             InitializeComponent();
             groupBoxDepartmentEdit.Visible = false;
+            txtSearchDepartments.KeyDown += txtSearchDepartments_KeyDown;
+            txtSearchEmployees.KeyDown += txtSearchEmployees_KeyDown;
+            txtSearchDepartments.TextChanged += txtSearchDepartments_TextChanged;
+            txtSearchEmployees.TextChanged += txtSearchEmployees_TextChanged;
+            dgvDepartments.ColumnHeaderMouseClick += dgvDepartments_ColumnHeaderMouseClick;
+            dgvEmployeesWithDepartments.ColumnHeaderMouseClick += dgvEmployeesWithDepartments_ColumnHeaderMouseClick;
         }
+        private void LoadDepartments()
+        {
+            allDepartments = departmentService.GetDepartments();
+            displayedDepartments = new List<Department>(allDepartments);
+
+            dgvDepartments.DataSource = displayedDepartments
+                .Select(d => new { d.Id, d.Name })
+                .ToList();
+        }
+
         public static DepartmentsForm GetForm()
         {
             DepartmentsForm ThisForm = new DepartmentsForm();
@@ -36,7 +58,7 @@ namespace PersonnelDepartmentApp
                 .Select(emp => new
                 {
                     emp.Id,
-                    FullName = $"{emp.LastName} {emp.FirstName} {emp.MiddleName}",
+                    ФІО = $"{emp.LastName} {emp.FirstName} {emp.MiddleName}",
                     Department = departments != null
                         ? departments.FirstOrDefault(d => d.Id == emp.DepartmentId)?.Name ?? "—"
                         : "—"
@@ -49,7 +71,99 @@ namespace PersonnelDepartmentApp
             groupBoxDepartmentEdit.Visible = false;
         }
 
+        //сортування для таблички з підрозділами
+        private string lastSortedDeptColumn = null;
+        private bool lastDeptSortAsc = true;
 
+        private void dgvDepartments_ColumnHeaderMouseClick(object sender, DataGridViewCellMouseEventArgs e)
+        {
+            // Если коллекция не инициализирована — инициализируем из departments
+            if (displayedDepartments == null)
+            {
+                displayedDepartments = departments != null
+                    ? new List<Department>(departments)
+                    : new List<Department>();
+            }
+
+            string columnName = dgvDepartments.Columns[e.ColumnIndex].DataPropertyName;
+            if (lastSortedDeptColumn == columnName)
+                lastDeptSortAsc = !lastDeptSortAsc;
+            else
+                lastDeptSortAsc = true;
+            lastSortedDeptColumn = columnName;
+
+            Func<Department, object> keySelector;
+            switch (columnName)
+            {
+                case "Id":
+                    keySelector = d => d.Id;
+                    break;
+                case "Name":
+                    keySelector = d => d.Name;
+                    break;
+                default:
+                    keySelector = d => d.Id;
+                    break;
+            }
+
+            if (lastDeptSortAsc)
+                displayedDepartments = displayedDepartments.OrderBy(keySelector).ToList();
+            else
+                displayedDepartments = displayedDepartments.OrderByDescending(keySelector).ToList();
+
+            dgvDepartments.DataSource = displayedDepartments
+                .Select(d => new { d.Id, d.Name })
+                .ToList();
+        }
+
+
+        //сортування для таблиці зі співробітниками та підрозділами
+        private void dgvEmployeesWithDepartments_ColumnHeaderMouseClick(object sender, DataGridViewCellMouseEventArgs e)
+        {
+            string columnName = dgvEmployeesWithDepartments.Columns[e.ColumnIndex].DataPropertyName;
+            if (lastSortedEmpColumn == columnName)
+                lastEmpSortAsc = !lastEmpSortAsc;
+            else
+                lastEmpSortAsc = true;
+            lastSortedEmpColumn = columnName;
+
+            // Для сортировки используем employees, а не DataSource
+            Func<Employee, object> keySelector;
+            switch (columnName)
+            {
+                case "Id":
+                    keySelector = emp => emp.Id;
+                    break;
+                case "FullName":
+                case "ФІО":
+                    keySelector = emp => $"{emp.LastName} {emp.FirstName} {emp.MiddleName}";
+                    break;
+                case "Department":
+                    keySelector = emp => departments != null
+                        ? departments.FirstOrDefault(d => d.Id == emp.DepartmentId)?.Name ?? ""
+                        : "";
+                    break;
+                default:
+                    keySelector = emp => emp.Id;
+                    break;
+            }
+
+            if (lastEmpSortAsc)
+                displayedEmployeesWithDepartments = employees.OrderBy(keySelector).ToList();
+            else
+                displayedEmployeesWithDepartments = employees.OrderByDescending(keySelector).ToList();
+
+            dgvEmployeesWithDepartments.DataSource = displayedEmployeesWithDepartments
+                .Select(emp => new
+                {
+                    emp.Id,
+                    FullName = $"{emp.LastName} {emp.FirstName} {emp.MiddleName}",
+                    Department = departments != null
+                        ? departments.FirstOrDefault(d => d.Id == emp.DepartmentId)?.Name ?? "—"
+                        : "—"
+                })
+                .ToList();
+        }
 
         private void btnAssignDepartment_Click(object sender, EventArgs e)
         {
@@ -302,6 +416,79 @@ namespace PersonnelDepartmentApp
                 })
                 .ToList();
             dgvEmployeesWithDepartments.DataSource = filtered;
+        }
+        private void txtSearchDepartments_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.KeyCode == Keys.Enter)
+            {
+                btnSearchDepartments_Click(sender, e);
+                e.Handled = true;
+                e.SuppressKeyPress = true;
+            }
+        }
+
+        private void txtSearchEmployees_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.KeyCode == Keys.Enter)
+            {
+                btnSearchEmployees_Click(sender, e);
+                e.Handled = true;
+                e.SuppressKeyPress = true;
+            }
+        }
+        private void txtSearchDepartments_TextChanged(object sender, EventArgs e)
+        {
+            if (string.IsNullOrWhiteSpace(txtSearchDepartments.Text))
+            {
+                // Показываем весь список подразделений
+                if (IsDepartmentsLoaded())
+                {
+                    dgvDepartments.DataSource = departments
+                        .Select(d => new { d.Id, d.Name })
+                        .ToList();
+                }
+            }
+        }
+
+        private void txtSearchEmployees_TextChanged(object sender, EventArgs e)
+        {
+            if (string.IsNullOrWhiteSpace(txtSearchEmployees.Text))
+            {
+                dgvEmployeesWithDepartments.DataSource = employees
+                    .Select(emp => new
+                    {
+                        emp.Id,
+                        FullName = $"{emp.LastName} {emp.FirstName} {emp.MiddleName}",
+                        Department = departments != null
+                            ? departments.FirstOrDefault(d => d.Id == emp.DepartmentId)?.Name ?? "—"
+                            : "—"
+                    })
+                    .ToList();
+            }
+        }
+
+        private void btnResetDeptSort_Click(object sender, EventArgs e)
+        {
+            displayedDepartments = new List<Department>(allDepartments);
+            dgvDepartments.DataSource = displayedDepartments
+                .Select(d => new { d.Id, d.Name })
+                .ToList();
+            lastSortedDeptColumn = null;
+        }
+
+        private void btnResetEmpSort_Click(object sender, EventArgs e)
+        {
+            dgvEmployeesWithDepartments.DataSource = employees
+                .Select(emp => new
+                {
+                    emp.Id,
+                    FullName = $"{emp.LastName} {emp.FirstName} {emp.MiddleName}",
+                    Department = departments != null
+                        ? departments.FirstOrDefault(d => d.Id == emp.DepartmentId)?.Name ?? "—"
+                        : "—"
+                })
+                .ToList();
+            lastSortedEmpColumn = null;
         }
 
     }

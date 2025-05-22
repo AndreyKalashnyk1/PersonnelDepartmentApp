@@ -54,6 +54,7 @@
             this.label3 = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
             this.label1 = new System.Windows.Forms.Label();
+            this.btnResetSort = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.dgvEmployees)).BeginInit();
             this.groupBoxAddEmployee.SuspendLayout();
             this.SuspendLayout();
@@ -308,11 +309,22 @@
             this.label1.TabIndex = 0;
             this.label1.Text = "Прізвище";
             // 
-            // Employees
+            // btnResetSort
+            // 
+            this.btnResetSort.Location = new System.Drawing.Point(627, 8);
+            this.btnResetSort.Name = "btnResetSort";
+            this.btnResetSort.Size = new System.Drawing.Size(210, 34);
+            this.btnResetSort.TabIndex = 8;
+            this.btnResetSort.Text = "Скинути сортування";
+            this.btnResetSort.UseVisualStyleBackColor = true;
+            this.btnResetSort.Click += new System.EventHandler(this.btnResetSort_Click);
+            // 
+            // EmployeesForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(11F, 28F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1195, 681);
+            this.Controls.Add(this.btnResetSort);
             this.Controls.Add(this.groupBoxAddEmployee);
             this.Controls.Add(this.btnSearch);
             this.Controls.Add(this.txtSearch);
@@ -326,7 +338,7 @@
             this.Margin = new System.Windows.Forms.Padding(4);
             this.MaximizeBox = false;
             this.MinimizeBox = false;
-            this.Name = "Employees";
+            this.Name = "EmployeesForm";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Відділ кадрів";
             this.Load += new System.EventHandler(this.MainForm_Load);
@@ -366,5 +378,6 @@
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.Button btnSaveEmployee;
         private System.Windows.Forms.Button btnClearFields;
+        private System.Windows.Forms.Button btnResetSort;
     }
 }

@@ -36,14 +36,16 @@
             this.btnEditDepartment = new System.Windows.Forms.Button();
             this.btnDeleteDepartment = new System.Windows.Forms.Button();
             this.groupBoxDepartmentEdit = new System.Windows.Forms.GroupBox();
-            this.btnSaveDepartment = new System.Windows.Forms.Button();
-            this.btnCancelDepartmentEdit = new System.Windows.Forms.Button();
-            this.txtDepartmentName = new System.Windows.Forms.TextBox();
             this.label1 = new System.Windows.Forms.Label();
+            this.txtDepartmentName = new System.Windows.Forms.TextBox();
+            this.btnCancelDepartmentEdit = new System.Windows.Forms.Button();
+            this.btnSaveDepartment = new System.Windows.Forms.Button();
             this.btnSearchDepartments = new System.Windows.Forms.Button();
             this.txtSearchDepartments = new System.Windows.Forms.TextBox();
             this.btnSearchEmployees = new System.Windows.Forms.Button();
             this.txtSearchEmployees = new System.Windows.Forms.TextBox();
+            this.btnResetDeptSort = new System.Windows.Forms.Button();
+            this.btnResetEmpSort = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.dgvEmployeesWithDepartments)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.dgvDepartments)).BeginInit();
             this.groupBoxDepartmentEdit.SuspendLayout();
@@ -53,30 +55,30 @@
             // 
             this.dgvEmployeesWithDepartments.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.dgvEmployeesWithDepartments.Location = new System.Drawing.Point(15, 84);
-            this.dgvEmployeesWithDepartments.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.dgvEmployeesWithDepartments.Margin = new System.Windows.Forms.Padding(4);
             this.dgvEmployeesWithDepartments.Name = "dgvEmployeesWithDepartments";
             this.dgvEmployeesWithDepartments.RowHeadersWidth = 62;
             this.dgvEmployeesWithDepartments.RowTemplate.Height = 28;
-            this.dgvEmployeesWithDepartments.Size = new System.Drawing.Size(768, 570);
+            this.dgvEmployeesWithDepartments.Size = new System.Drawing.Size(596, 428);
             this.dgvEmployeesWithDepartments.TabIndex = 0;
             // 
             // dgvDepartments
             // 
             this.dgvDepartments.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.dgvDepartments.Location = new System.Drawing.Point(809, 84);
-            this.dgvDepartments.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.dgvDepartments.Location = new System.Drawing.Point(630, 84);
+            this.dgvDepartments.Margin = new System.Windows.Forms.Padding(4);
             this.dgvDepartments.Name = "dgvDepartments";
             this.dgvDepartments.RowHeadersWidth = 62;
             this.dgvDepartments.RowTemplate.Height = 28;
-            this.dgvDepartments.Size = new System.Drawing.Size(737, 570);
+            this.dgvDepartments.Size = new System.Drawing.Size(548, 428);
             this.dgvDepartments.TabIndex = 1;
             // 
             // btnAssignDepartment
             // 
-            this.btnAssignDepartment.Location = new System.Drawing.Point(12, 678);
-            this.btnAssignDepartment.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.btnAssignDepartment.Location = new System.Drawing.Point(13, 533);
+            this.btnAssignDepartment.Margin = new System.Windows.Forms.Padding(4);
             this.btnAssignDepartment.Name = "btnAssignDepartment";
-            this.btnAssignDepartment.Size = new System.Drawing.Size(194, 87);
+            this.btnAssignDepartment.Size = new System.Drawing.Size(168, 69);
             this.btnAssignDepartment.TabIndex = 2;
             this.btnAssignDepartment.Text = "Пере/Призначити підрозділ";
             this.btnAssignDepartment.UseVisualStyleBackColor = true;
@@ -84,10 +86,10 @@
             // 
             // btnAddDepartment
             // 
-            this.btnAddDepartment.Location = new System.Drawing.Point(804, 678);
-            this.btnAddDepartment.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.btnAddDepartment.Location = new System.Drawing.Point(630, 523);
+            this.btnAddDepartment.Margin = new System.Windows.Forms.Padding(4);
             this.btnAddDepartment.Name = "btnAddDepartment";
-            this.btnAddDepartment.Size = new System.Drawing.Size(149, 88);
+            this.btnAddDepartment.Size = new System.Drawing.Size(114, 69);
             this.btnAddDepartment.TabIndex = 4;
             this.btnAddDepartment.Text = "Додати підрозділ";
             this.btnAddDepartment.UseVisualStyleBackColor = true;
@@ -95,10 +97,10 @@
             // 
             // btnReloadDepartments
             // 
-            this.btnReloadDepartments.Location = new System.Drawing.Point(1392, 678);
-            this.btnReloadDepartments.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.btnReloadDepartments.Location = new System.Drawing.Point(1047, 524);
+            this.btnReloadDepartments.Margin = new System.Windows.Forms.Padding(4);
             this.btnReloadDepartments.Name = "btnReloadDepartments";
-            this.btnReloadDepartments.Size = new System.Drawing.Size(152, 87);
+            this.btnReloadDepartments.Size = new System.Drawing.Size(131, 67);
             this.btnReloadDepartments.TabIndex = 5;
             this.btnReloadDepartments.Text = "Оновити підрозділи";
             this.btnReloadDepartments.UseVisualStyleBackColor = true;
@@ -106,10 +108,10 @@
             // 
             // btnEditDepartment
             // 
-            this.btnEditDepartment.Location = new System.Drawing.Point(960, 678);
-            this.btnEditDepartment.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.btnEditDepartment.Location = new System.Drawing.Point(752, 524);
+            this.btnEditDepartment.Margin = new System.Windows.Forms.Padding(4);
             this.btnEditDepartment.Name = "btnEditDepartment";
-            this.btnEditDepartment.Size = new System.Drawing.Size(149, 88);
+            this.btnEditDepartment.Size = new System.Drawing.Size(125, 67);
             this.btnEditDepartment.TabIndex = 6;
             this.btnEditDepartment.Text = "Редагувати підрозділ";
             this.btnEditDepartment.UseVisualStyleBackColor = true;
@@ -117,10 +119,10 @@
             // 
             // btnDeleteDepartment
             // 
-            this.btnDeleteDepartment.Location = new System.Drawing.Point(1117, 678);
-            this.btnDeleteDepartment.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.btnDeleteDepartment.Location = new System.Drawing.Point(885, 523);
+            this.btnDeleteDepartment.Margin = new System.Windows.Forms.Padding(4);
             this.btnDeleteDepartment.Name = "btnDeleteDepartment";
-            this.btnDeleteDepartment.Size = new System.Drawing.Size(149, 88);
+            this.btnDeleteDepartment.Size = new System.Drawing.Size(129, 68);
             this.btnDeleteDepartment.TabIndex = 7;
             this.btnDeleteDepartment.Text = "Видалити підрозділ";
             this.btnDeleteDepartment.UseVisualStyleBackColor = true;
@@ -132,44 +134,14 @@
             this.groupBoxDepartmentEdit.Controls.Add(this.txtDepartmentName);
             this.groupBoxDepartmentEdit.Controls.Add(this.btnCancelDepartmentEdit);
             this.groupBoxDepartmentEdit.Controls.Add(this.btnSaveDepartment);
-            this.groupBoxDepartmentEdit.Location = new System.Drawing.Point(1208, 84);
-            this.groupBoxDepartmentEdit.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.groupBoxDepartmentEdit.Location = new System.Drawing.Point(936, 84);
+            this.groupBoxDepartmentEdit.Margin = new System.Windows.Forms.Padding(4);
             this.groupBoxDepartmentEdit.Name = "groupBoxDepartmentEdit";
-            this.groupBoxDepartmentEdit.Padding = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.groupBoxDepartmentEdit.Padding = new System.Windows.Forms.Padding(4);
             this.groupBoxDepartmentEdit.Size = new System.Drawing.Size(353, 261);
             this.groupBoxDepartmentEdit.TabIndex = 8;
             this.groupBoxDepartmentEdit.TabStop = false;
             this.groupBoxDepartmentEdit.Text = "Дані підрозділу";
-            // 
-            // btnSaveDepartment
-            // 
-            this.btnSaveDepartment.Location = new System.Drawing.Point(19, 189);
-            this.btnSaveDepartment.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
-            this.btnSaveDepartment.Name = "btnSaveDepartment";
-            this.btnSaveDepartment.Size = new System.Drawing.Size(142, 50);
-            this.btnSaveDepartment.TabIndex = 4;
-            this.btnSaveDepartment.Text = "Зберегти";
-            this.btnSaveDepartment.UseVisualStyleBackColor = true;
-            this.btnSaveDepartment.Click += new System.EventHandler(this.btnSaveDepartment_Click);
-            // 
-            // btnCancelDepartmentEdit
-            // 
-            this.btnCancelDepartmentEdit.Location = new System.Drawing.Point(195, 189);
-            this.btnCancelDepartmentEdit.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
-            this.btnCancelDepartmentEdit.Name = "btnCancelDepartmentEdit";
-            this.btnCancelDepartmentEdit.Size = new System.Drawing.Size(146, 50);
-            this.btnCancelDepartmentEdit.TabIndex = 5;
-            this.btnCancelDepartmentEdit.Text = "Скасувати";
-            this.btnCancelDepartmentEdit.UseVisualStyleBackColor = true;
-            this.btnCancelDepartmentEdit.Click += new System.EventHandler(this.btnCancelDepartmentEdit_Click);
-            // 
-            // txtDepartmentName
-            // 
-            this.txtDepartmentName.Location = new System.Drawing.Point(14, 117);
-            this.txtDepartmentName.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
-            this.txtDepartmentName.Name = "txtDepartmentName";
-            this.txtDepartmentName.Size = new System.Drawing.Size(327, 34);
-            this.txtDepartmentName.TabIndex = 9;
             // 
             // label1
             // 
@@ -180,9 +152,39 @@
             this.label1.TabIndex = 10;
             this.label1.Text = "Введіть назву нового підрозділу";
             // 
+            // txtDepartmentName
+            // 
+            this.txtDepartmentName.Location = new System.Drawing.Point(14, 117);
+            this.txtDepartmentName.Margin = new System.Windows.Forms.Padding(4);
+            this.txtDepartmentName.Name = "txtDepartmentName";
+            this.txtDepartmentName.Size = new System.Drawing.Size(327, 34);
+            this.txtDepartmentName.TabIndex = 9;
+            // 
+            // btnCancelDepartmentEdit
+            // 
+            this.btnCancelDepartmentEdit.Location = new System.Drawing.Point(195, 189);
+            this.btnCancelDepartmentEdit.Margin = new System.Windows.Forms.Padding(4);
+            this.btnCancelDepartmentEdit.Name = "btnCancelDepartmentEdit";
+            this.btnCancelDepartmentEdit.Size = new System.Drawing.Size(146, 50);
+            this.btnCancelDepartmentEdit.TabIndex = 5;
+            this.btnCancelDepartmentEdit.Text = "Скасувати";
+            this.btnCancelDepartmentEdit.UseVisualStyleBackColor = true;
+            this.btnCancelDepartmentEdit.Click += new System.EventHandler(this.btnCancelDepartmentEdit_Click);
+            // 
+            // btnSaveDepartment
+            // 
+            this.btnSaveDepartment.Location = new System.Drawing.Point(19, 189);
+            this.btnSaveDepartment.Margin = new System.Windows.Forms.Padding(4);
+            this.btnSaveDepartment.Name = "btnSaveDepartment";
+            this.btnSaveDepartment.Size = new System.Drawing.Size(142, 50);
+            this.btnSaveDepartment.TabIndex = 4;
+            this.btnSaveDepartment.Text = "Зберегти";
+            this.btnSaveDepartment.UseVisualStyleBackColor = true;
+            this.btnSaveDepartment.Click += new System.EventHandler(this.btnSaveDepartment_Click);
+            // 
             // btnSearchDepartments
             // 
-            this.btnSearchDepartments.Location = new System.Drawing.Point(1127, 25);
+            this.btnSearchDepartments.Location = new System.Drawing.Point(936, 25);
             this.btnSearchDepartments.Name = "btnSearchDepartments";
             this.btnSearchDepartments.Size = new System.Drawing.Size(209, 34);
             this.btnSearchDepartments.TabIndex = 10;
@@ -192,14 +194,14 @@
             // 
             // txtSearchDepartments
             // 
-            this.txtSearchDepartments.Location = new System.Drawing.Point(807, 25);
+            this.txtSearchDepartments.Location = new System.Drawing.Point(630, 25);
             this.txtSearchDepartments.Name = "txtSearchDepartments";
             this.txtSearchDepartments.Size = new System.Drawing.Size(300, 34);
             this.txtSearchDepartments.TabIndex = 9;
             // 
             // btnSearchEmployees
             // 
-            this.btnSearchEmployees.Location = new System.Drawing.Point(335, 25);
+            this.btnSearchEmployees.Location = new System.Drawing.Point(321, 25);
             this.btnSearchEmployees.Name = "btnSearchEmployees";
             this.btnSearchEmployees.Size = new System.Drawing.Size(201, 34);
             this.btnSearchEmployees.TabIndex = 12;
@@ -214,11 +216,33 @@
             this.txtSearchEmployees.Size = new System.Drawing.Size(300, 34);
             this.txtSearchEmployees.TabIndex = 11;
             // 
+            // btnResetDeptSort
+            // 
+            this.btnResetDeptSort.Location = new System.Drawing.Point(1151, 25);
+            this.btnResetDeptSort.Name = "btnResetDeptSort";
+            this.btnResetDeptSort.Size = new System.Drawing.Size(104, 34);
+            this.btnResetDeptSort.TabIndex = 13;
+            this.btnResetDeptSort.Text = "Скинути сортування";
+            this.btnResetDeptSort.UseVisualStyleBackColor = true;
+            this.btnResetDeptSort.Click += new System.EventHandler(this.btnResetDeptSort_Click);
+            // 
+            // btnResetEmpSort
+            // 
+            this.btnResetEmpSort.Location = new System.Drawing.Point(528, 25);
+            this.btnResetEmpSort.Name = "btnResetEmpSort";
+            this.btnResetEmpSort.Size = new System.Drawing.Size(83, 34);
+            this.btnResetEmpSort.TabIndex = 14;
+            this.btnResetEmpSort.Text = "Скинути сортування";
+            this.btnResetEmpSort.UseVisualStyleBackColor = true;
+            this.btnResetEmpSort.Click += new System.EventHandler(this.btnResetEmpSort_Click);
+            // 
             // DepartmentsForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(11F, 28F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(1561, 782);
+            this.ClientSize = new System.Drawing.Size(1278, 617);
+            this.Controls.Add(this.btnResetEmpSort);
+            this.Controls.Add(this.btnResetDeptSort);
             this.Controls.Add(this.btnSearchEmployees);
             this.Controls.Add(this.txtSearchEmployees);
             this.Controls.Add(this.btnSearchDepartments);
@@ -232,7 +256,7 @@
             this.Controls.Add(this.dgvDepartments);
             this.Controls.Add(this.dgvEmployeesWithDepartments);
             this.Font = new System.Drawing.Font("Segoe UI", 10F);
-            this.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.Margin = new System.Windows.Forms.Padding(4);
             this.Name = "DepartmentsForm";
             this.Text = "DepartmentsForm";
             this.Load += new System.EventHandler(this.DepartmentsForm_Load);
@@ -263,5 +287,7 @@
         private System.Windows.Forms.TextBox txtSearchDepartments;
         private System.Windows.Forms.Button btnSearchEmployees;
         private System.Windows.Forms.TextBox txtSearchEmployees;
+        private System.Windows.Forms.Button btnResetDeptSort;
+        private System.Windows.Forms.Button btnResetEmpSort;
     }
 }
