@@ -41,9 +41,21 @@ namespace PersonnelDepartmentApp.Services
 
         public void DeleteEmployee(int id)
         {
-            employees.RemoveAll(e => e.Id == id);
-            SaveEmployees();
+            var employee = employees.FirstOrDefault(e => e.Id == id);
+            if (employee != null)
+            {
+                employees.Remove(employee);
+
+                foreach (var emp in employees.Where(e => e.Id > id))
+                {
+                    emp.Id -= 1;
+                }
+
+                SaveEmployees();
+            }
         }
+
+
 
         public void SaveEmployees()
         {
@@ -54,6 +66,7 @@ namespace PersonnelDepartmentApp.Services
         {
             return employees.Count == 0 ? 1 : employees.Max(e => e.Id) + 1;
         }
+
 
         public Employee GetEmployeeById(int id)
         {

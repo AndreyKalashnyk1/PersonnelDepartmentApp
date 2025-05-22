@@ -17,7 +17,7 @@ namespace PersonnelDepartmentApp.Models
         public string PassportNumber { get; set; }
         public Education Education { get; set; }
         public Position Position { get; set; }
-        public Department Department { get; set; }
+        public int? DepartmentId { get; set; }
         public DateTime HireDate { get; set; }
         public DateTime? TerminationDate { get; set; }
         public decimal Salary { get; set; }

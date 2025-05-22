@@ -2,6 +2,7 @@
 using System;
 using System.Windows.Forms;
 using PersonnelDepartmentApp;
+using PersonnelDepartmentApp.Forms;
 
 namespace PersonnelDepartmentApp
 {

@@ -35,7 +35,7 @@ namespace PersonnelDepartmentApp.Services
                 Excel.Range usedRange = worksheet.UsedRange;
                 int rowCount = usedRange.Rows.Count;
 
-                for (int row = 2; row <= rowCount; row++) 
+                for (int row = 2; row <= rowCount; row++)
                 {
                     try
                     {
@@ -51,7 +51,10 @@ namespace PersonnelDepartmentApp.Services
                             TerminationDate = string.IsNullOrWhiteSpace(usedRange.Cells[row, 8].Text)
                                 ? (DateTime?)null
                                 : DateTime.Parse(usedRange.Cells[row, 8].Text),
-                            Salary = decimal.Parse(usedRange.Cells[row, 9].Text)
+                            Salary = decimal.Parse(usedRange.Cells[row, 9].Text),
+                            DepartmentId = string.IsNullOrWhiteSpace(usedRange.Cells[row, 10].Text)
+                                ? (int?)null
+                                : int.Parse(usedRange.Cells[row, 10].Text)
                         };
 
                         employees.Add(employee);
@@ -68,13 +71,13 @@ namespace PersonnelDepartmentApp.Services
             }
             finally
             {
-                // Закриваємо Excel
                 workbook?.Close(false);
                 excelApp?.Quit();
             }
 
             return employees;
         }
+
 
         // Метод для збереження даних в Excel
         public void SaveEmployeesToExcel(List<Employee> employees)
@@ -89,7 +92,7 @@ namespace PersonnelDepartmentApp.Services
                 workbook = excelApp.Workbooks.Add();
                 worksheet = workbook.Sheets[1];
 
-                // Додаємо заголовки
+                // Заголовки
                 worksheet.Cells[1, 1].Value = "Id";
                 worksheet.Cells[1, 2].Value = "Прізвище";
                 worksheet.Cells[1, 3].Value = "Ім'я";
@@ -99,8 +102,9 @@ namespace PersonnelDepartmentApp.Services
                 worksheet.Cells[1, 7].Value = "Дата прийняття";
                 worksheet.Cells[1, 8].Value = "Дата звільнення";
                 worksheet.Cells[1, 9].Value = "Зарплата";
+                worksheet.Cells[1, 10].Value = "Підрозділ ID"; // нова колонка
 
-                // Додаємо дані працівників
+                // Дані
                 int row = 2;
                 foreach (Employee employee in employees)
                 {
@@ -113,10 +117,11 @@ namespace PersonnelDepartmentApp.Services
                     worksheet.Cells[row, 7].Value = employee.HireDate.ToString("dd.MM.yyyy");
                     worksheet.Cells[row, 8].Value = employee.TerminationDate?.ToString("dd.MM.yyyy") ?? "";
                     worksheet.Cells[row, 9].Value = employee.Salary.ToString("F2");
+                    worksheet.Cells[row, 10].Value = employee.DepartmentId?.ToString() ?? ""; // нове поле
                     row++;
                 }
 
-                // Зберігаємо файл
+                // Зберігаємо
                 workbook.SaveAs(filePath);
             }
             catch (Exception ex)
@@ -129,5 +134,54 @@ namespace PersonnelDepartmentApp.Services
                 excelApp?.Quit();
             }
         }
+        public List<Department> LoadDepartmentsFromExcel()
+        {
+            var departments = new List<Department>();
+            string path = "departments.xlsx";
+
+            if (!File.Exists(path)) return departments;
+
+            var excelApp = new Excel.Application();
+            var workbook = excelApp.Workbooks.Open(path);
+            var sheet = workbook.Sheets[1];
+            var range = sheet.UsedRange;
+            int rowCount = range.Rows.Count;
+
+            for (int row = 2; row <= rowCount; row++)
+            {
+                departments.Add(new Department
+                {
+                    Id = int.Parse(range.Cells[row, 1].Text),
+                    Name = range.Cells[row, 2].Text
+                });
+            }
+
+            workbook.Close(false);
+            excelApp.Quit();
+
+            return departments;
+        }
+        public void SaveDepartmentsToExcel(List<Department> departments)
+        {
+            var excelApp = new Excel.Application();
+            var workbook = excelApp.Workbooks.Add();
+            var sheet = workbook.Sheets[1];
+
+            sheet.Cells[1, 1].Value = "Id";
+            sheet.Cells[1, 2].Value = "Назва";
+
+            int row = 2;
+            foreach (var d in departments)
+            {
+                sheet.Cells[row, 1].Value = d.Id;
+                sheet.Cells[row, 2].Value = d.Name;
+                row++;
+            }
+
+            workbook.SaveAs("departments.xlsx");
+            workbook.Close(false);
+            excelApp.Quit();
+        }
+
     }
 }
