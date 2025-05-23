@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.IO;
 using Excel = Microsoft.Office.Interop.Excel;
 using PersonnelDepartmentApp.Models;
+using PdfSharp.Pdf;
+using PdfSharp.Drawing;
 
 namespace PersonnelDepartmentApp.Services
 {
@@ -250,6 +252,29 @@ namespace PersonnelDepartmentApp.Services
             workbook.Close(false);
             excelApp.Quit();
         }
+        public void GeneratePdfFromTemplate(string templateFileName, Dictionary<string, string> replacements,string outputFileName)
+        {
+            // Путь к шаблону
+            string templatePath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Templates", templateFileName);
+            if (!File.Exists(templatePath))
+                throw new FileNotFoundException("Шаблон не знайдено", templatePath);
 
+            string template = File.ReadAllText(templatePath);
+
+            // Замена плейсхолдеров
+            foreach (var pair in replacements)
+                template = template.Replace(pair.Key, pair.Value);
+
+            // Генерация PDF
+            PdfDocument document = new PdfDocument();
+            document.Info.Title = "Наказ";
+            PdfPage page = document.AddPage();
+            XGraphics gfx = XGraphics.FromPdfPage(page);
+            XFont font = new XFont("Arial", 12);
+
+            gfx.DrawString(template, font, XBrushes.Black, new XRect(40, 40, page.Width - 80, page.Height - 80), XStringFormats.TopLeft);
+
+            document.Save(outputFileName);
+        }
     }
 }

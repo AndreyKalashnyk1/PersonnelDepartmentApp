@@ -45,6 +45,7 @@
             this.toolStripMenuItem4 = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripMenuItem5 = new System.Windows.Forms.ToolStripMenuItem();
             this.вихідToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.сформуватиНаказиToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.menuStrip1.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -109,6 +110,8 @@
             // 
             // формуванняНаказівToolStripMenuItem
             // 
+            this.формуванняНаказівToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.сформуватиНаказиToolStripMenuItem});
             this.формуванняНаказівToolStripMenuItem.Font = new System.Drawing.Font("Segoe UI", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.формуванняНаказівToolStripMenuItem.Name = "формуванняНаказівToolStripMenuItem";
             this.формуванняНаказівToolStripMenuItem.Size = new System.Drawing.Size(218, 42);
@@ -193,6 +196,12 @@
             this.вихідToolStripMenuItem.Text = "Вихід";
             this.вихідToolStripMenuItem.Click += new System.EventHandler(this.вихідToolStripMenuItem_Click);
             // 
+            // сформуватиНаказиToolStripMenuItem
+            // 
+            this.сформуватиНаказиToolStripMenuItem.Name = "сформуватиНаказиToolStripMenuItem";
+            this.сформуватиНаказиToolStripMenuItem.Size = new System.Drawing.Size(297, 36);
+            this.сформуватиНаказиToolStripMenuItem.Text = "Сформувати накази";
+            // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 21F);
@@ -233,5 +242,6 @@
         private System.Windows.Forms.ToolStripMenuItem toolStripMenuItem3;
         private System.Windows.Forms.ToolStripMenuItem toolStripMenuItem4;
         private System.Windows.Forms.ToolStripMenuItem toolStripMenuItem5;
+        private System.Windows.Forms.ToolStripMenuItem сформуватиНаказиToolStripMenuItem;
     }
 }

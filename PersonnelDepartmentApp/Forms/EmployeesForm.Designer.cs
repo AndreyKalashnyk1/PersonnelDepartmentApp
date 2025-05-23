@@ -55,20 +55,24 @@
             this.label2 = new System.Windows.Forms.Label();
             this.label1 = new System.Windows.Forms.Label();
             this.btnResetSort = new System.Windows.Forms.Button();
+            this.btnGenerateOrder = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.dgvEmployees)).BeginInit();
             this.groupBoxAddEmployee.SuspendLayout();
             this.SuspendLayout();
             // 
             // dgvEmployees
             // 
-            this.dgvEmployees.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
+            this.dgvEmployees.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom) 
+            | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
+            this.dgvEmployees.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
+            this.dgvEmployees.AutoSizeRowsMode = System.Windows.Forms.DataGridViewAutoSizeRowsMode.AllCells;
             this.dgvEmployees.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.dgvEmployees.Location = new System.Drawing.Point(12, 48);
             this.dgvEmployees.Name = "dgvEmployees";
             this.dgvEmployees.RowHeadersWidth = 62;
             this.dgvEmployees.RowTemplate.Height = 28;
-            this.dgvEmployees.Size = new System.Drawing.Size(1171, 550);
+            this.dgvEmployees.Size = new System.Drawing.Size(1184, 550);
             this.dgvEmployees.TabIndex = 0;
             // 
             // btnAddEmployee
@@ -319,11 +323,22 @@
             this.btnResetSort.UseVisualStyleBackColor = true;
             this.btnResetSort.Click += new System.EventHandler(this.btnResetSort_Click);
             // 
+            // btnGenerateOrder
+            // 
+            this.btnGenerateOrder.Location = new System.Drawing.Point(662, 605);
+            this.btnGenerateOrder.Name = "btnGenerateOrder";
+            this.btnGenerateOrder.Size = new System.Drawing.Size(145, 68);
+            this.btnGenerateOrder.TabIndex = 9;
+            this.btnGenerateOrder.Text = "Генерувати наказ";
+            this.btnGenerateOrder.UseVisualStyleBackColor = true;
+            this.btnGenerateOrder.Click += new System.EventHandler(this.btnGenerateOrder_Click);
+            // 
             // EmployeesForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(11F, 28F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1195, 681);
+            this.Controls.Add(this.btnGenerateOrder);
             this.Controls.Add(this.btnResetSort);
             this.Controls.Add(this.groupBoxAddEmployee);
             this.Controls.Add(this.btnSearch);
@@ -379,5 +394,6 @@
         private System.Windows.Forms.Button btnSaveEmployee;
         private System.Windows.Forms.Button btnClearFields;
         private System.Windows.Forms.Button btnResetSort;
+        private System.Windows.Forms.Button btnGenerateOrder;
     }
 }

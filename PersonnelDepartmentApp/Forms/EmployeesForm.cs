@@ -421,5 +421,39 @@ namespace PersonnelDepartmentApp
                 e.Handled = true;
             }
         }
+
+        private void btnGenerateOrder_Click(object sender, EventArgs e)
+        {
+            if (dgvEmployees.SelectedRows.Count == 0)
+            {
+                MessageBox.Show("Оберіть співробітника для формування наказу.", "Увага", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return;
+            }
+
+            int employeeId = Convert.ToInt32(dgvEmployees.SelectedRows[0].Cells["ID"].Value);
+            Employee emp = employeeService.GetEmployeeById(employeeId);
+
+            string position = ""; 
+            string department = ""; 
+
+            var replacements = new Dictionary<string, string>
+            {
+                { "{OrderNumber}", DateTime.Now.Ticks.ToString().Substring(10) },
+                { "{OrderDate}", DateTime.Now.ToString("dd.MM.yyyy") },
+                { "{FullName}", $"{emp.LastName} {emp.FirstName} {emp.MiddleName}" },
+                { "{BirthDate}", emp.BirthDate.ToString("dd.MM.yyyy") },
+                { "{PassportNumber}", emp.PassportNumber },
+                { "{Position}", position },
+                { "{Department}", department },
+                { "{HireDate}", emp.HireDate.ToString("dd.MM.yyyy") },
+                { "{Salary}", emp.Salary.ToString("F2") }
+            };
+
+            string outputFileName = $"Наказ_прийом_{emp.LastName}_{emp.Id}.pdf";
+            fileService.GeneratePdfFromTemplate("hire_order_template.txt", replacements, outputFileName);
+
+            MessageBox.Show($"Наказ збережено у файл: {outputFileName}", "Готово", MessageBoxButtons.OK, MessageBoxIcon.Information);
+        }
+
     }
 }
