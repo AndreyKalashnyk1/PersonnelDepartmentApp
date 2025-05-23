@@ -294,6 +294,7 @@ namespace PersonnelDepartmentApp
                 LoadEmployees();
                 MessageBox.Show("Працівника успішно видалено!", "Успіх", MessageBoxButtons.OK, MessageBoxIcon.Information);
             }
+            dgvEmployees.Focus();
         }
 
         // Оновлення працівника

@@ -136,6 +136,7 @@ namespace PersonnelDepartmentApp
                 LoadEmployeesWithPositions();
                 MessageBox.Show("Посаду успішно видалено.", "Інформація", MessageBoxButtons.OK, MessageBoxIcon.Information);
             }
+            dgvPositions.Focus();
         }
 
         private void btnSavePosition_Click(object sender, EventArgs e)
@@ -361,6 +362,7 @@ namespace PersonnelDepartmentApp
 
                 MessageBox.Show("Посаду у працівника видалено.", "Інформація", MessageBoxButtons.OK, MessageBoxIcon.Information);
             }
+            dgvEmployeesWithPositions.Focus();
         }
 
         private void btnSearchEmployees_Click(object sender, EventArgs e)

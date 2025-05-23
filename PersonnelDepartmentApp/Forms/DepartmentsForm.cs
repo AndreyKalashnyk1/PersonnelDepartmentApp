@@ -313,6 +313,7 @@ namespace PersonnelDepartmentApp
             dgvDepartments.DataSource = departments
                 .Select(d => new { d.Id, d.Name })
                 .ToList();
+            dgvDepartments.Focus();
         }
 
 
