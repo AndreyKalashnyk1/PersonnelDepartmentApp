@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Windows.Forms;
 using PersonnelDepartmentApp.Models;
@@ -30,6 +31,7 @@ namespace PersonnelDepartmentApp
             InitializeComponent();
             groupBoxAddEmployee.Visible = false;
             employeeService = new EmployeeService();
+            fileService = new FileService();
             txtSearch.KeyDown += TxtSearch_KeyDown;
             txtSalary.KeyPress += TxtSalary_KeyPress;
             dgvEmployees.ColumnHeaderMouseClick += dgvEmployees_ColumnHeaderMouseClick;
@@ -433,8 +435,8 @@ namespace PersonnelDepartmentApp
             int employeeId = Convert.ToInt32(dgvEmployees.SelectedRows[0].Cells["ID"].Value);
             Employee emp = employeeService.GetEmployeeById(employeeId);
 
-            string position = ""; 
-            string department = ""; 
+            string position = ""; // Получить из PositionService
+            string department = ""; // Получить из DepartmentService
 
             var replacements = new Dictionary<string, string>
             {
@@ -449,11 +451,25 @@ namespace PersonnelDepartmentApp
                 { "{Salary}", emp.Salary.ToString("F2") }
             };
 
-            string outputFileName = $"Наказ_прийом_{emp.LastName}_{emp.Id}.pdf";
-            fileService.GeneratePdfFromTemplate("hire_order_template.txt", replacements, outputFileName);
+            string safeName = $"{emp.LastName}_{emp.FirstName}_{emp.Id}";
+            string fileName = $"Наказ_прийом_{safeName}_{DateTime.Now:yyyyMMdd_HHmmss}.pdf";
 
-            MessageBox.Show($"Наказ збережено у файл: {outputFileName}", "Готово", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            try
+            {
+                fileService.GenerateOrderFromWordTemplate("hire_order_template.docx", replacements, fileName);
+
+                string ordersDir = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Orders");
+                string outputPath = Path.Combine(ordersDir, fileName);
+
+                System.Diagnostics.Process.Start(outputPath);
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Помилка генерації наказу: {ex.Message}", "Помилка", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
         }
+
+
 
     }
 }

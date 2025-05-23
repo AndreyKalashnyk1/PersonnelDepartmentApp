@@ -51,6 +51,7 @@
             this.txtSearchEmployees = new System.Windows.Forms.TextBox();
             this.btnAssignPosition = new System.Windows.Forms.Button();
             this.dgvEmployeesWithPositions = new System.Windows.Forms.DataGridView();
+            this.btnGenerateAppointOrder = new System.Windows.Forms.Button();
             this.groupBoxPositionEdit.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dgvPositions)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.dgvEmployeesWithPositions)).BeginInit();
@@ -297,11 +298,22 @@
             this.dgvEmployeesWithPositions.Size = new System.Drawing.Size(781, 534);
             this.dgvEmployeesWithPositions.TabIndex = 29;
             // 
+            // btnGenerateAppointOrder
+            // 
+            this.btnGenerateAppointOrder.Location = new System.Drawing.Point(479, 647);
+            this.btnGenerateAppointOrder.Name = "btnGenerateAppointOrder";
+            this.btnGenerateAppointOrder.Size = new System.Drawing.Size(153, 68);
+            this.btnGenerateAppointOrder.TabIndex = 35;
+            this.btnGenerateAppointOrder.Text = "Генерувати наказ";
+            this.btnGenerateAppointOrder.UseVisualStyleBackColor = true;
+            this.btnGenerateAppointOrder.Click += new System.EventHandler(this.btnGenerateAppointOrder_Click);
+            // 
             // PositionsForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(11F, 28F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1643, 731);
+            this.Controls.Add(this.btnGenerateAppointOrder);
             this.Controls.Add(this.btnRemovePositionFromEmployee);
             this.Controls.Add(this.btnResetEmpSort);
             this.Controls.Add(this.btnSearchEmployees);
@@ -358,5 +370,6 @@
         private System.Windows.Forms.TextBox txtSearchEmployees;
         private System.Windows.Forms.Button btnAssignPosition;
         private System.Windows.Forms.DataGridView dgvEmployeesWithPositions;
+        private System.Windows.Forms.Button btnGenerateAppointOrder;
     }
 }

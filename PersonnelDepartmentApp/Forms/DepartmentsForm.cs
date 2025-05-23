@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Windows.Forms;
 using PersonnelDepartmentApp.Models;
@@ -12,6 +13,7 @@ namespace PersonnelDepartmentApp
         private DepartmentService departmentService = new DepartmentService();
         private EmployeeService employeeService = new EmployeeService();
         private int? editingDepartmentId = null;
+        private FileService fileService;
 
         private List<Department> departments;
         private List<Employee> employees;
@@ -25,6 +27,7 @@ namespace PersonnelDepartmentApp
         public DepartmentsForm()
         {
             InitializeComponent();
+            fileService = new FileService();
             groupBoxDepartmentEdit.Visible = false;
             txtSearchDepartments.KeyDown += txtSearchDepartments_KeyDown;
             txtSearchEmployees.KeyDown += txtSearchEmployees_KeyDown;
@@ -541,5 +544,47 @@ namespace PersonnelDepartmentApp
         {
             
         }
+
+        private void btnGenerateTransferOrder_Click(object sender, EventArgs e)
+        {
+            if (dgvEmployeesWithDepartments.SelectedRows.Count == 0)
+            {
+                MessageBox.Show("Оберіть співробітника для формування наказу.", "Увага", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return;
+            }
+
+            int employeeId = Convert.ToInt32(dgvEmployeesWithDepartments.SelectedRows[0].Cells["ID"].Value);
+            Employee emp = employeeService.GetEmployeeById(employeeId);
+
+            // Получаем подразделение по DepartmentId
+            Department department = departmentService.GetDepartmentById(emp.DepartmentId ?? 0);
+
+            var replacements = new Dictionary<string, string>
+    {
+        { "{OrderNumber}", DateTime.Now.Ticks.ToString().Substring(10) },
+        { "{OrderDate}", DateTime.Now.ToString("dd.MM.yyyy") },
+        { "{FullName}", $"{emp.LastName} {emp.FirstName} {emp.MiddleName}" },
+        { "{Department}", department?.Name ?? "" },
+        { "{TransferDate}", DateTime.Now.ToString("dd.MM.yyyy") }
+    };
+
+            string safeName = $"{emp.LastName}_{emp.FirstName}_{emp.Id}";
+            string fileName = $"Наказ_переведення_{safeName}_{DateTime.Now:yyyyMMdd_HHmmss}.pdf";
+
+            try
+            {
+                fileService.GenerateOrderFromWordTemplate("transfer_order_template.docx", replacements, fileName);
+
+                string ordersDir = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Orders");
+                string outputPath = Path.Combine(ordersDir, fileName);
+
+                System.Diagnostics.Process.Start(outputPath);
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Помилка генерації наказу: {ex.Message}", "Помилка", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
+
     }
 }

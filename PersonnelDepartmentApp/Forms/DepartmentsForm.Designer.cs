@@ -47,6 +47,7 @@
             this.btnResetDeptSort = new System.Windows.Forms.Button();
             this.btnResetEmpSort = new System.Windows.Forms.Button();
             this.btnRemoveDepartmentFromEmployee = new System.Windows.Forms.Button();
+            this.btnGenerateTransferOrder = new System.Windows.Forms.Button();
             ((System.ComponentModel.ISupportInitialize)(this.dgvEmployeesWithDepartments)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.dgvDepartments)).BeginInit();
             this.groupBoxDepartmentEdit.SuspendLayout();
@@ -248,11 +249,22 @@
             this.btnRemoveDepartmentFromEmployee.UseVisualStyleBackColor = true;
             this.btnRemoveDepartmentFromEmployee.Click += new System.EventHandler(this.btnRemoveDepartmentFromEmployee_Click);
             // 
+            // btnGenerateTransferOrder
+            // 
+            this.btnGenerateTransferOrder.Location = new System.Drawing.Point(480, 651);
+            this.btnGenerateTransferOrder.Name = "btnGenerateTransferOrder";
+            this.btnGenerateTransferOrder.Size = new System.Drawing.Size(175, 68);
+            this.btnGenerateTransferOrder.TabIndex = 16;
+            this.btnGenerateTransferOrder.Text = "Генерувати наказ";
+            this.btnGenerateTransferOrder.UseVisualStyleBackColor = true;
+            this.btnGenerateTransferOrder.Click += new System.EventHandler(this.btnGenerateTransferOrder_Click);
+            // 
             // DepartmentsForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(11F, 28F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1501, 731);
+            this.Controls.Add(this.btnGenerateTransferOrder);
             this.Controls.Add(this.btnRemoveDepartmentFromEmployee);
             this.Controls.Add(this.btnResetEmpSort);
             this.Controls.Add(this.btnResetDeptSort);
@@ -306,5 +318,6 @@
         private System.Windows.Forms.Button btnResetDeptSort;
         private System.Windows.Forms.Button btnResetEmpSort;
         private System.Windows.Forms.Button btnRemoveDepartmentFromEmployee;
+        private System.Windows.Forms.Button btnGenerateTransferOrder;
     }
 }

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Windows.Forms;
 using PersonnelDepartmentApp.Models;
@@ -12,6 +13,7 @@ namespace PersonnelDepartmentApp
         private List<Position> positions;
         private List<Position> allPositions;
         private List<Position> displayedPositions;
+        private FileService fileService;
         private int? editingPositionId = null;
         private string lastSortedColumn = null;
         private bool lastSortAsc = true;
@@ -34,6 +36,7 @@ namespace PersonnelDepartmentApp
         public PositionsForm()
         {
             InitializeComponent();
+            fileService = new FileService();
             groupBoxPositionEdit.Visible = false;
             txtSearchPositions.KeyDown += txtSearchPositions_KeyDown;
             txtSearchPositions.TextChanged += txtSearchPositions_TextChanged;
@@ -485,5 +488,47 @@ namespace PersonnelDepartmentApp
         {
 
         }
+
+        private void btnGenerateAppointOrder_Click(object sender, EventArgs e)
+        {
+            if (dgvEmployeesWithPositions.SelectedRows.Count == 0)
+            {
+                MessageBox.Show("Оберіть співробітника для формування наказу.", "Увага", MessageBoxButtons.OK, MessageBoxIcon.Warning);
+                return;
+            }
+
+            int employeeId = Convert.ToInt32(dgvEmployeesWithPositions.SelectedRows[0].Cells["ID"].Value);
+            Employee emp = employeeService.GetEmployeeById(employeeId);
+
+            // Отримуємо посаду по PositionId
+            Position position = positionService.GetPositionById(emp.PositionId ?? 0);
+
+            var replacements = new Dictionary<string, string>
+            {
+                { "{OrderNumber}", DateTime.Now.Ticks.ToString().Substring(10) },
+                { "{OrderDate}", DateTime.Now.ToString("dd.MM.yyyy") },
+                { "{FullName}", $"{emp.LastName} {emp.FirstName} {emp.MiddleName}" },
+                { "{Position}", position?.Title ?? "" },
+                { "{AppointDate}", DateTime.Now.ToString("dd.MM.yyyy") }
+            };
+
+            string safeName = $"{emp.LastName}_{emp.FirstName}_{emp.Id}";
+            string fileName = $"Наказ_призначення_{safeName}_{DateTime.Now:yyyyMMdd_HHmmss}.pdf";
+
+            try
+            {
+                fileService.GenerateOrderFromWordTemplate("appoint_order_template.docx", replacements, fileName);
+
+                string ordersDir = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Orders");
+                string outputPath = Path.Combine(ordersDir, fileName);
+
+                System.Diagnostics.Process.Start(outputPath);
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show($"Помилка генерації наказу: {ex.Message}", "Помилка", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
+
     }
 }

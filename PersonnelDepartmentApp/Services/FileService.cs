@@ -3,8 +3,7 @@ using System.Collections.Generic;
 using System.IO;
 using Excel = Microsoft.Office.Interop.Excel;
 using PersonnelDepartmentApp.Models;
-using PdfSharp.Pdf;
-using PdfSharp.Drawing;
+using Word = Microsoft.Office.Interop.Word;
 
 namespace PersonnelDepartmentApp.Services
 {
@@ -252,29 +251,58 @@ namespace PersonnelDepartmentApp.Services
             workbook.Close(false);
             excelApp.Quit();
         }
-        public void GeneratePdfFromTemplate(string templateFileName, Dictionary<string, string> replacements,string outputFileName)
+        public void GenerateOrderFromWordTemplate(string templateFileName, Dictionary<string, string> replacements,string outputPdfFileName)
         {
-            // Путь к шаблону
-            string templatePath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Templates", templateFileName);
+            string templatesDir = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Templates");
+            string templatePath = Path.Combine(templatesDir, templateFileName);
             if (!File.Exists(templatePath))
                 throw new FileNotFoundException("Шаблон не знайдено", templatePath);
 
-            string template = File.ReadAllText(templatePath);
+            string ordersDir = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Orders");
+            if (!Directory.Exists(ordersDir))
+                Directory.CreateDirectory(ordersDir);
 
-            // Замена плейсхолдеров
-            foreach (var pair in replacements)
-                template = template.Replace(pair.Key, pair.Value);
+            string tempDocx = Path.Combine(ordersDir, Guid.NewGuid() + ".docx");
+            string outputPdfPath = Path.Combine(ordersDir, outputPdfFileName);
 
-            // Генерация PDF
-            PdfDocument document = new PdfDocument();
-            document.Info.Title = "Наказ";
-            PdfPage page = document.AddPage();
-            XGraphics gfx = XGraphics.FromPdfPage(page);
-            XFont font = new XFont("Arial", 12);
+            // Копируем шаблон во временный docx
+            File.Copy(templatePath, tempDocx, true);
 
-            gfx.DrawString(template, font, XBrushes.Black, new XRect(40, 40, page.Width - 80, page.Height - 80), XStringFormats.TopLeft);
+            var wordApp = new Word.Application();
+            Word.Document doc = null;
+            try
+            {
+                doc = wordApp.Documents.Open(tempDocx);
 
-            document.Save(outputFileName);
+                // Замена плейсхолдеров
+                foreach (var pair in replacements)
+                {
+                    Word.Find findObject = wordApp.Selection.Find;
+                    findObject.ClearFormatting();
+                    findObject.Text = pair.Key;
+                    findObject.Replacement.ClearFormatting();
+                    findObject.Replacement.Text = pair.Value;
+                    object replaceAll = Word.WdReplace.wdReplaceAll;
+                    findObject.Execute(Replace: ref replaceAll);
+                }
+
+                // Зберігаємо як PDF
+                doc.SaveAs2(outputPdfPath, Word.WdSaveFormat.wdFormatPDF);
+            }
+            finally
+            {
+                if (doc != null)
+                {
+                    doc.Close(false);
+                    System.Runtime.InteropServices.Marshal.ReleaseComObject(doc);
+                }
+                wordApp.Quit();
+                System.Runtime.InteropServices.Marshal.ReleaseComObject(wordApp);
+                // Удаляем временный docx
+                if (File.Exists(tempDocx))
+                    File.Delete(tempDocx);
+            }
         }
+
     }
 }

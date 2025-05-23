@@ -60,4 +60,9 @@ public class PositionService
     {
         return positions.Count > 0 ? positions.Max(p => p.Id) + 1 : 1;
     }
+    public Position GetPositionById(int id)
+    {
+        return positions.FirstOrDefault(p => p.Id == id);
+    }
+
 }
