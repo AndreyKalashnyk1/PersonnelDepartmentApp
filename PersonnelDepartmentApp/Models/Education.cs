@@ -10,6 +10,7 @@ namespace PersonnelDepartmentApp.Models
     public class Education
     {
         public int Id { get; set; }
+        public int EmployeeId { get; set; }
         public string Degree { get; set; }
         public string Major { get; set; }
         public string Institution { get; set; }

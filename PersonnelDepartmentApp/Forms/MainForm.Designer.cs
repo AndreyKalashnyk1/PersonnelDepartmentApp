@@ -34,7 +34,6 @@
             this.tsn_Departments = new System.Windows.Forms.ToolStripMenuItem();
             this.tsmPositions = new System.Windows.Forms.ToolStripMenuItem();
             this.освітаToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.формуванняНаказівToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.довідкаКористувачуToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripMenuItem8 = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripMenuItem7 = new System.Windows.Forms.ToolStripMenuItem();
@@ -45,7 +44,6 @@
             this.toolStripMenuItem4 = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripMenuItem5 = new System.Windows.Forms.ToolStripMenuItem();
             this.вихідToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.сформуватиНаказиToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.menuStrip1.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -55,7 +53,6 @@
             this.menuStrip1.ImageScalingSize = new System.Drawing.Size(24, 24);
             this.menuStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.співробітникиToolStripMenuItem,
-            this.формуванняНаказівToolStripMenuItem,
             this.довідкаКористувачуToolStripMenuItem,
             this.toolStripMenuItem8,
             this.toolStripMenuItem7,
@@ -64,7 +61,7 @@
             this.вихідToolStripMenuItem});
             this.menuStrip1.Location = new System.Drawing.Point(0, 0);
             this.menuStrip1.Name = "menuStrip1";
-            this.menuStrip1.Size = new System.Drawing.Size(616, 46);
+            this.menuStrip1.Size = new System.Drawing.Size(401, 46);
             this.menuStrip1.TabIndex = 0;
             this.menuStrip1.Text = "menuStrip1";
             // 
@@ -84,21 +81,21 @@
             // tsmEmployees
             // 
             this.tsmEmployees.Name = "tsmEmployees";
-            this.tsmEmployees.Size = new System.Drawing.Size(270, 36);
+            this.tsmEmployees.Size = new System.Drawing.Size(249, 36);
             this.tsmEmployees.Text = "Співробітники";
             this.tsmEmployees.Click += new System.EventHandler(this.tsmEmployees_Click);
             // 
             // tsn_Departments
             // 
             this.tsn_Departments.Name = "tsn_Departments";
-            this.tsn_Departments.Size = new System.Drawing.Size(270, 36);
+            this.tsn_Departments.Size = new System.Drawing.Size(249, 36);
             this.tsn_Departments.Text = "Підрозділи";
             this.tsn_Departments.Click += new System.EventHandler(this.tsn_Departments_Click);
             // 
             // tsmPositions
             // 
             this.tsmPositions.Name = "tsmPositions";
-            this.tsmPositions.Size = new System.Drawing.Size(270, 36);
+            this.tsmPositions.Size = new System.Drawing.Size(249, 36);
             this.tsmPositions.Text = "Посади";
             this.tsmPositions.Click += new System.EventHandler(this.tsmPositions_Click);
             // 
@@ -107,16 +104,7 @@
             this.освітаToolStripMenuItem.Name = "освітаToolStripMenuItem";
             this.освітаToolStripMenuItem.Size = new System.Drawing.Size(270, 36);
             this.освітаToolStripMenuItem.Text = "Освіта";
-            // 
-            // формуванняНаказівToolStripMenuItem
-            // 
-            this.формуванняНаказівToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.сформуватиНаказиToolStripMenuItem});
-            this.формуванняНаказівToolStripMenuItem.Font = new System.Drawing.Font("Segoe UI", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
-            this.формуванняНаказівToolStripMenuItem.Name = "формуванняНаказівToolStripMenuItem";
-            this.формуванняНаказівToolStripMenuItem.Size = new System.Drawing.Size(218, 42);
-            this.формуванняНаказівToolStripMenuItem.Text = "Формування наказів";
-            this.формуванняНаказівToolStripMenuItem.Click += new System.EventHandler(this.формуванняНаказівToolStripMenuItem_Click);
+            this.освітаToolStripMenuItem.Click += new System.EventHandler(this.освітаToolStripMenuItem_Click);
             // 
             // довідкаКористувачуToolStripMenuItem
             // 
@@ -196,17 +184,11 @@
             this.вихідToolStripMenuItem.Text = "Вихід";
             this.вихідToolStripMenuItem.Click += new System.EventHandler(this.вихідToolStripMenuItem_Click);
             // 
-            // сформуватиНаказиToolStripMenuItem
-            // 
-            this.сформуватиНаказиToolStripMenuItem.Name = "сформуватиНаказиToolStripMenuItem";
-            this.сформуватиНаказиToolStripMenuItem.Size = new System.Drawing.Size(297, 36);
-            this.сформуватиНаказиToolStripMenuItem.Text = "Сформувати накази";
-            // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(9F, 21F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(616, 506);
+            this.ClientSize = new System.Drawing.Size(401, 385);
             this.Controls.Add(this.menuStrip1);
             this.Font = new System.Drawing.Font("Segoe UI", 8F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog;
@@ -231,7 +213,6 @@
         private System.Windows.Forms.ToolStripMenuItem tsn_Departments;
         private System.Windows.Forms.ToolStripMenuItem tsmPositions;
         private System.Windows.Forms.ToolStripMenuItem освітаToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem формуванняНаказівToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem довідкаКористувачуToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem вихідToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem toolStripMenuItem8;
@@ -242,6 +223,5 @@
         private System.Windows.Forms.ToolStripMenuItem toolStripMenuItem3;
         private System.Windows.Forms.ToolStripMenuItem toolStripMenuItem4;
         private System.Windows.Forms.ToolStripMenuItem toolStripMenuItem5;
-        private System.Windows.Forms.ToolStripMenuItem сформуватиНаказиToolStripMenuItem;
     }
 }

@@ -61,5 +61,10 @@ namespace PersonnelDepartmentApp.Forms
         {
             PositionsForm.GetForm().ShowDialog();
         }
+
+        private void освітаToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            EducationsForm.GetForm().ShowDialog();
+        }
     }
 }
