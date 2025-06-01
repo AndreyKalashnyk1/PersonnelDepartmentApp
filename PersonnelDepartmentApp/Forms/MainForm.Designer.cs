@@ -61,7 +61,7 @@
             this.вихідToolStripMenuItem});
             this.menuStrip1.Location = new System.Drawing.Point(0, 0);
             this.menuStrip1.Name = "menuStrip1";
-            this.menuStrip1.Size = new System.Drawing.Size(401, 46);
+            this.menuStrip1.Size = new System.Drawing.Size(401, 48);
             this.menuStrip1.TabIndex = 0;
             this.menuStrip1.Text = "menuStrip1";
             // 
@@ -81,21 +81,21 @@
             // tsmEmployees
             // 
             this.tsmEmployees.Name = "tsmEmployees";
-            this.tsmEmployees.Size = new System.Drawing.Size(249, 36);
+            this.tsmEmployees.Size = new System.Drawing.Size(270, 36);
             this.tsmEmployees.Text = "Співробітники";
             this.tsmEmployees.Click += new System.EventHandler(this.tsmEmployees_Click);
             // 
             // tsn_Departments
             // 
             this.tsn_Departments.Name = "tsn_Departments";
-            this.tsn_Departments.Size = new System.Drawing.Size(249, 36);
+            this.tsn_Departments.Size = new System.Drawing.Size(270, 36);
             this.tsn_Departments.Text = "Підрозділи";
             this.tsn_Departments.Click += new System.EventHandler(this.tsn_Departments_Click);
             // 
             // tsmPositions
             // 
             this.tsmPositions.Name = "tsmPositions";
-            this.tsmPositions.Size = new System.Drawing.Size(249, 36);
+            this.tsmPositions.Size = new System.Drawing.Size(270, 36);
             this.tsmPositions.Text = "Посади";
             this.tsmPositions.Click += new System.EventHandler(this.tsmPositions_Click);
             // 
@@ -118,7 +118,7 @@
             // 
             this.toolStripMenuItem8.Font = new System.Drawing.Font("Segoe UI", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.toolStripMenuItem8.Name = "toolStripMenuItem8";
-            this.toolStripMenuItem8.Size = new System.Drawing.Size(76, 42);
+            this.toolStripMenuItem8.Size = new System.Drawing.Size(76, 44);
             this.toolStripMenuItem8.Text = "Вихід";
             this.toolStripMenuItem8.Click += new System.EventHandler(this.вихідToolStripMenuItem_Click);
             // 
@@ -196,6 +196,7 @@
             this.MaximizeBox = false;
             this.MinimizeBox = false;
             this.Name = "MainForm";
+            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Основна форма";
             this.Load += new System.EventHandler(this.MainForm1_Load);
             this.menuStrip1.ResumeLayout(false);

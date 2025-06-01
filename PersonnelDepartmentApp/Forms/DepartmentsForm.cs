@@ -52,12 +52,13 @@ namespace PersonnelDepartmentApp
                 .Select(emp => new
                 {
                     emp.Id,
-                    ФІО = $"{emp.LastName} {emp.FirstName} {emp.MiddleName}",
+                    FullName = $"{emp.LastName} {emp.FirstName} {emp.MiddleName}",
                     Department = departments != null
                         ? departments.FirstOrDefault(d => d.Id == emp.DepartmentId)?.Name ?? "—"
                         : "—"
                 })
                 .ToList();
+            SetEmployeesWithDepartmentsGridHeaders();
 
             dgvEmployeesWithDepartments.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.AllCells;
             dgvDepartments.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.AllCells;
@@ -108,6 +109,7 @@ namespace PersonnelDepartmentApp
             dgvDepartments.DataSource = displayedDepartments
                 .Select(d => new { d.Id, d.Name })
                 .ToList();
+            SetDepartmentsGridHeaders();
         }
 
 
@@ -157,6 +159,8 @@ namespace PersonnelDepartmentApp
                         : "—"
                 })
                 .ToList();
+            SetEmployeesWithDepartmentsGridHeaders();
+
         }
 
         private void btnAssignDepartment_Click(object sender, EventArgs e)
@@ -211,6 +215,7 @@ namespace PersonnelDepartmentApp
                     Department = departments.FirstOrDefault(d => d.Id == emp.DepartmentId)?.Name ?? "—"
                 })
                 .ToList();
+            SetEmployeesWithDepartmentsGridHeaders();
 
             MessageBox.Show("Підрозділ призначено працівнику.", "Інформація", MessageBoxButtons.OK, MessageBoxIcon.Information);
         }
@@ -238,6 +243,7 @@ namespace PersonnelDepartmentApp
             dgvDepartments.DataSource = departments
                 .Select(d => new { d.Id, d.Name })
                 .ToList();
+            SetDepartmentsGridHeaders();
 
             // Обновляем сотрудников с актуальными подразделениями
             employees = employeeService.GetEmployees();
@@ -249,6 +255,7 @@ namespace PersonnelDepartmentApp
                     Department = departments.FirstOrDefault(d => d.Id == emp.DepartmentId)?.Name ?? "—"
                 })
                 .ToList();
+            SetEmployeesWithDepartmentsGridHeaders();
         }
 
 
@@ -313,6 +320,7 @@ namespace PersonnelDepartmentApp
             dgvDepartments.DataSource = departments
                 .Select(d => new { d.Id, d.Name })
                 .ToList();
+            SetDepartmentsGridHeaders();
             dgvDepartments.Focus();
         }
 
@@ -323,7 +331,7 @@ namespace PersonnelDepartmentApp
         }
         private bool IsDepartmentsLoaded()
         {
-            return departments != null && departments.Count > 0;
+            return departments != null /*&& departments.Count > 0*/;
         }
 
         private void btnSaveDepartment_Click(object sender, EventArgs e)
@@ -358,6 +366,7 @@ namespace PersonnelDepartmentApp
             dgvDepartments.DataSource = departments
                 .Select(d => new { d.Id, d.Name })
                 .ToList();
+            SetDepartmentsGridHeaders();
 
             // И обновляем сотрудников с актуальными подразделениями
             dgvEmployeesWithDepartments.DataSource = employees
@@ -368,12 +377,10 @@ namespace PersonnelDepartmentApp
                     Department = departments.FirstOrDefault(d => d.Id == emp.DepartmentId)?.Name ?? "—"
                 })
                 .ToList();
+            SetEmployeesWithDepartmentsGridHeaders();
 
             groupBoxDepartmentEdit.Visible = false;
         }
-
-
-
 
         private void btnCancelDepartmentEdit_Click(object sender, EventArgs e)
         {
@@ -442,6 +449,7 @@ namespace PersonnelDepartmentApp
                         .Select(d => new { d.Id, d.Name })
                         .ToList();
                 }
+                SetDepartmentsGridHeaders();
             }
         }
 
@@ -459,17 +467,25 @@ namespace PersonnelDepartmentApp
                             : "—"
                     })
                     .ToList();
+                SetEmployeesWithDepartmentsGridHeaders();
             }
         }
 
         private void btnResetDeptSort_Click(object sender, EventArgs e)
         {
+            if (allDepartments == null)
+            {
+                departments = departmentService.GetDepartments();
+                allDepartments = departments != null ? new List<Department>(departments) : new List<Department>();
+            }
             displayedDepartments = new List<Department>(allDepartments);
             dgvDepartments.DataSource = displayedDepartments
                 .Select(d => new { d.Id, d.Name })
                 .ToList();
             lastSortedDeptColumn = null;
+            SetDepartmentsGridHeaders();
         }
+
 
         private void btnResetEmpSort_Click(object sender, EventArgs e)
         {
@@ -483,6 +499,7 @@ namespace PersonnelDepartmentApp
                         : "—"
                 })
                 .ToList();
+            SetEmployeesWithDepartmentsGridHeaders();
             lastSortedEmpColumn = null;
         }
 
@@ -535,6 +552,8 @@ namespace PersonnelDepartmentApp
                             : "—"
                     })
                     .ToList();
+                SetEmployeesWithDepartmentsGridHeaders();
+
 
                 MessageBox.Show("Підрозділ у працівника видалено.", "Інформація", MessageBoxButtons.OK, MessageBoxIcon.Information);
                 dgvEmployeesWithDepartments.Focus();
@@ -585,6 +604,28 @@ namespace PersonnelDepartmentApp
             {
                 MessageBox.Show($"Помилка генерації наказу: {ex.Message}", "Помилка", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
+        }
+
+        private void dgvEmployeesWithDepartments_CellContentClick(object sender, DataGridViewCellEventArgs e)
+        {
+
+        }
+        private void SetDepartmentsGridHeaders()
+        {
+            if (dgvDepartments.Columns["Id"] != null)
+                dgvDepartments.Columns["Id"].HeaderText = "ID";
+            if (dgvDepartments.Columns["Name"] != null)
+                dgvDepartments.Columns["Name"].HeaderText = "Назва підрозділу";
+        }
+
+        private void SetEmployeesWithDepartmentsGridHeaders()
+        {
+            if (dgvEmployeesWithDepartments.Columns["Id"] != null)
+                dgvEmployeesWithDepartments.Columns["Id"].HeaderText = "ID";
+            if (dgvEmployeesWithDepartments.Columns["FullName"] != null)
+                dgvEmployeesWithDepartments.Columns["FullName"].HeaderText = "ПІБ";
+            if (dgvEmployeesWithDepartments.Columns["Department"] != null)
+                dgvEmployeesWithDepartments.Columns["Department"].HeaderText = "Підрозділ";
         }
 
     }

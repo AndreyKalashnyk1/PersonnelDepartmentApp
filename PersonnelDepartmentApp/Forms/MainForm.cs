@@ -49,7 +49,7 @@ namespace PersonnelDepartmentApp.Forms
 
         private void вихідToolStripMenuItem_Click(object sender, EventArgs e)
         {
-
+            Close();
         }
 
         private void tsn_Departments_Click(object sender, EventArgs e)

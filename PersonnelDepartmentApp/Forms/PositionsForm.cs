@@ -65,6 +65,7 @@ namespace PersonnelDepartmentApp
             dgvPositions.DataSource = displayedPositions
                 .Select(p => new { p.Id, p.Title, p.Salary, p.Requirements })
                 .ToList();
+            SetPositionsGridHeaders();
             dgvPositions.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.AllCells;
         }
         private void LoadEmployeesWithPositions()
@@ -81,6 +82,7 @@ namespace PersonnelDepartmentApp
 
                 })
                 .ToList();
+            SetEmployeesWithPositionsGridHeaders();
             dgvEmployeesWithPositions.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.AllCells;
         }
         private void btnAddPosition_Click(object sender, EventArgs e)
@@ -160,6 +162,7 @@ namespace PersonnelDepartmentApp
                 var newPosition = new Position { Title = title, Salary = salary, Requirements = requirements };
                 positionService.AddPosition(newPosition);
                 MessageBox.Show("Посаду додано.", "Інформація", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                dgvPositions.Focus();
             }
             else
             {
@@ -172,6 +175,7 @@ namespace PersonnelDepartmentApp
                 };
                 positionService.EditPosition(editingPositionId.Value, updatedPosition);
                 MessageBox.Show("Посаду відредаговано.", "Інформація", MessageBoxButtons.OK, MessageBoxIcon.Information);
+                dgvEmployeesWithPositions.Focus();
             }
             groupBoxPositionEdit.Visible = false;
             LoadPositions();
@@ -217,6 +221,7 @@ namespace PersonnelDepartmentApp
                 dgvPositions.DataSource = positions
                     .Select(p => new { p.Id, p.Title, p.Salary, p.Requirements })
                     .ToList();
+                SetPositionsGridHeaders();
             }
         }
 
@@ -263,6 +268,7 @@ namespace PersonnelDepartmentApp
             dgvPositions.DataSource = displayedPositions
                 .Select(p => new { p.Id, p.Title, p.Salary, p.Requirements })
                 .ToList();
+            SetPositionsGridHeaders();
         }
 
         private void btnResetSort_Click_1(object sender, EventArgs e)
@@ -271,6 +277,7 @@ namespace PersonnelDepartmentApp
             dgvPositions.DataSource = displayedPositions
                 .Select(p => new { p.Id, p.Title, p.Salary, p.Requirements })
                 .ToList();
+            SetPositionsGridHeaders();
             lastSortedColumn = null;
         }
 
@@ -468,6 +475,7 @@ namespace PersonnelDepartmentApp
                         : "—"
                 })
                 .ToList();
+            SetEmployeesWithPositionsGridHeaders();
         }
 
         private void btnResetEmpSort_Click(object sender, EventArgs e)
@@ -483,6 +491,7 @@ namespace PersonnelDepartmentApp
                         : "—"
                 })
                 .ToList();
+            SetEmployeesWithPositionsGridHeaders();
             lastEmpSortedColumn = null;
         }
 
@@ -530,6 +539,27 @@ namespace PersonnelDepartmentApp
             {
                 MessageBox.Show($"Помилка генерації наказу: {ex.Message}", "Помилка", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
+        }
+        private void SetPositionsGridHeaders()
+        {
+            if (dgvPositions.Columns["Id"] != null)
+                dgvPositions.Columns["Id"].HeaderText = "ID";
+            if (dgvPositions.Columns["Title"] != null)
+                dgvPositions.Columns["Title"].HeaderText = "Назва посади";
+            if (dgvPositions.Columns["Salary"] != null)
+                dgvPositions.Columns["Salary"].HeaderText = "Зарплата";
+            if (dgvPositions.Columns["Requirements"] != null)
+                dgvPositions.Columns["Requirements"].HeaderText = "Вимоги";
+        }
+
+        private void SetEmployeesWithPositionsGridHeaders()
+        {
+            if (dgvEmployeesWithPositions.Columns["Id"] != null)
+                dgvEmployeesWithPositions.Columns["Id"].HeaderText = "ID";
+            if (dgvEmployeesWithPositions.Columns["FullName"] != null)
+                dgvEmployeesWithPositions.Columns["FullName"].HeaderText = "ПІБ";
+            if (dgvEmployeesWithPositions.Columns["Position"] != null)
+                dgvEmployeesWithPositions.Columns["Position"].HeaderText = "Посада";
         }
 
     }

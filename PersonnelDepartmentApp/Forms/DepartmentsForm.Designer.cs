@@ -63,6 +63,7 @@
             this.dgvEmployeesWithDepartments.RowTemplate.Height = 28;
             this.dgvEmployeesWithDepartments.Size = new System.Drawing.Size(731, 544);
             this.dgvEmployeesWithDepartments.TabIndex = 0;
+            this.dgvEmployeesWithDepartments.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.dgvEmployeesWithDepartments_CellContentClick);
             // 
             // dgvDepartments
             // 

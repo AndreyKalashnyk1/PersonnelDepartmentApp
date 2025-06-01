@@ -80,6 +80,7 @@ namespace PersonnelDepartmentApp.Forms
                     e.Institution,
                     GraduationYear = e.GraduationYear.Year
                 }).ToList();
+            SetEducationsGridHeaders();
         }
 
 
@@ -212,6 +213,19 @@ namespace PersonnelDepartmentApp.Forms
             btnAddEducation.Enabled = true;
             ClearEducationForm();
             editingEducation = null;
+        }
+        private void SetEducationsGridHeaders()
+        {
+            if (dgvEducations.Columns["Id"] != null)
+                dgvEducations.Columns["Id"].HeaderText = "ID";
+            if (dgvEducations.Columns["Degree"] != null)
+                dgvEducations.Columns["Degree"].HeaderText = "Ступінь";
+            if (dgvEducations.Columns["Major"] != null)
+                dgvEducations.Columns["Major"].HeaderText = "Спеціальність";
+            if (dgvEducations.Columns["Institution"] != null)
+                dgvEducations.Columns["Institution"].HeaderText = "Заклад";
+            if (dgvEducations.Columns["GraduationYear"] != null)
+                dgvEducations.Columns["GraduationYear"].HeaderText = "Рік закінчення";
         }
 
     }

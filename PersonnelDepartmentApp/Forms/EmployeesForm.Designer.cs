@@ -167,7 +167,7 @@
             this.btnClearFields.Name = "btnClearFields";
             this.btnClearFields.Size = new System.Drawing.Size(150, 69);
             this.btnClearFields.TabIndex = 17;
-            this.btnClearFields.Text = "Очистити поля";
+            this.btnClearFields.Text = "Скасувати";
             this.btnClearFields.UseVisualStyleBackColor = true;
             this.btnClearFields.Click += new System.EventHandler(this.btnClearFields_Click);
             // 
