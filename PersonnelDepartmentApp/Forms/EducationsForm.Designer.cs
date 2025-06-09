@@ -32,19 +32,19 @@
             this.lblEmployee = new System.Windows.Forms.Label();
             this.dgvEducations = new System.Windows.Forms.DataGridView();
             this.groupBoxAddEducation = new System.Windows.Forms.GroupBox();
-            this.lblDegree = new System.Windows.Forms.Label();
-            this.txtDegree = new System.Windows.Forms.TextBox();
-            this.lblMajor = new System.Windows.Forms.Label();
-            this.label1 = new System.Windows.Forms.Label();
-            this.txtInstitution = new System.Windows.Forms.TextBox();
-            this.lblGraduationYear = new System.Windows.Forms.Label();
-            this.numGraduationYear = new System.Windows.Forms.NumericUpDown();
-            this.btnSaveEducation = new System.Windows.Forms.Button();
+            this.txtMajor = new System.Windows.Forms.TextBox();
             this.btnCancelEdit = new System.Windows.Forms.Button();
+            this.btnSaveEducation = new System.Windows.Forms.Button();
+            this.numGraduationYear = new System.Windows.Forms.NumericUpDown();
+            this.lblGraduationYear = new System.Windows.Forms.Label();
+            this.txtInstitution = new System.Windows.Forms.TextBox();
+            this.label1 = new System.Windows.Forms.Label();
+            this.lblMajor = new System.Windows.Forms.Label();
+            this.txtDegree = new System.Windows.Forms.TextBox();
+            this.lblDegree = new System.Windows.Forms.Label();
             this.btnAddEducation = new System.Windows.Forms.Button();
             this.btnEditEducation = new System.Windows.Forms.Button();
             this.btnDeleteEducation = new System.Windows.Forms.Button();
-            this.txtMajor = new System.Windows.Forms.TextBox();
             ((System.ComponentModel.ISupportInitialize)(this.dgvEducations)).BeginInit();
             this.groupBoxAddEducation.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.numGraduationYear)).BeginInit();
@@ -54,7 +54,7 @@
             // 
             this.cmbEmployee.FormattingEnabled = true;
             this.cmbEmployee.Location = new System.Drawing.Point(169, 17);
-            this.cmbEmployee.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.cmbEmployee.Margin = new System.Windows.Forms.Padding(4);
             this.cmbEmployee.Name = "cmbEmployee";
             this.cmbEmployee.Size = new System.Drawing.Size(296, 36);
             this.cmbEmployee.TabIndex = 0;
@@ -74,7 +74,7 @@
             // 
             this.dgvEducations.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             this.dgvEducations.Location = new System.Drawing.Point(21, 79);
-            this.dgvEducations.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.dgvEducations.Margin = new System.Windows.Forms.Padding(4);
             this.dgvEducations.Name = "dgvEducations";
             this.dgvEducations.RowHeadersWidth = 62;
             this.dgvEducations.RowTemplate.Height = 28;
@@ -100,62 +100,22 @@
             this.groupBoxAddEducation.TabStop = false;
             this.groupBoxAddEducation.Text = "Додати/Редагувати освіту";
             // 
-            // lblDegree
+            // txtMajor
             // 
-            this.lblDegree.AutoSize = true;
-            this.lblDegree.Location = new System.Drawing.Point(7, 49);
-            this.lblDegree.Name = "lblDegree";
-            this.lblDegree.Size = new System.Drawing.Size(81, 28);
-            this.lblDegree.TabIndex = 0;
-            this.lblDegree.Text = "Ступінь";
+            this.txtMajor.Location = new System.Drawing.Point(12, 166);
+            this.txtMajor.Name = "txtMajor";
+            this.txtMajor.Size = new System.Drawing.Size(362, 34);
+            this.txtMajor.TabIndex = 9;
             // 
-            // txtDegree
+            // btnCancelEdit
             // 
-            this.txtDegree.Location = new System.Drawing.Point(12, 81);
-            this.txtDegree.Name = "txtDegree";
-            this.txtDegree.Size = new System.Drawing.Size(362, 34);
-            this.txtDegree.TabIndex = 1;
-            // 
-            // lblMajor
-            // 
-            this.lblMajor.AutoSize = true;
-            this.lblMajor.Location = new System.Drawing.Point(7, 135);
-            this.lblMajor.Name = "lblMajor";
-            this.lblMajor.Size = new System.Drawing.Size(138, 28);
-            this.lblMajor.TabIndex = 2;
-            this.lblMajor.Text = "Спеціальність";
-            // 
-            // label1
-            // 
-            this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(6, 217);
-            this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(75, 28);
-            this.label1.TabIndex = 3;
-            this.label1.Text = "Заклад";
-            // 
-            // txtInstitution
-            // 
-            this.txtInstitution.Location = new System.Drawing.Point(12, 257);
-            this.txtInstitution.Name = "txtInstitution";
-            this.txtInstitution.Size = new System.Drawing.Size(362, 34);
-            this.txtInstitution.TabIndex = 4;
-            // 
-            // lblGraduationYear
-            // 
-            this.lblGraduationYear.AutoSize = true;
-            this.lblGraduationYear.Location = new System.Drawing.Point(7, 338);
-            this.lblGraduationYear.Name = "lblGraduationYear";
-            this.lblGraduationYear.Size = new System.Drawing.Size(144, 28);
-            this.lblGraduationYear.TabIndex = 5;
-            this.lblGraduationYear.Text = "Рік закінчення";
-            // 
-            // numGraduationYear
-            // 
-            this.numGraduationYear.Location = new System.Drawing.Point(12, 390);
-            this.numGraduationYear.Name = "numGraduationYear";
-            this.numGraduationYear.Size = new System.Drawing.Size(176, 34);
-            this.numGraduationYear.TabIndex = 6;
+            this.btnCancelEdit.Location = new System.Drawing.Point(217, 601);
+            this.btnCancelEdit.Name = "btnCancelEdit";
+            this.btnCancelEdit.Size = new System.Drawing.Size(132, 65);
+            this.btnCancelEdit.TabIndex = 8;
+            this.btnCancelEdit.Text = "Скасувати";
+            this.btnCancelEdit.UseVisualStyleBackColor = true;
+            this.btnCancelEdit.Click += new System.EventHandler(this.btnCancelEdit_Click);
             // 
             // btnSaveEducation
             // 
@@ -167,15 +127,62 @@
             this.btnSaveEducation.UseVisualStyleBackColor = true;
             this.btnSaveEducation.Click += new System.EventHandler(this.btnSaveEducation_Click);
             // 
-            // btnCancelEdit
+            // numGraduationYear
             // 
-            this.btnCancelEdit.Location = new System.Drawing.Point(217, 601);
-            this.btnCancelEdit.Name = "btnCancelEdit";
-            this.btnCancelEdit.Size = new System.Drawing.Size(132, 65);
-            this.btnCancelEdit.TabIndex = 8;
-            this.btnCancelEdit.Text = "Скасувати";
-            this.btnCancelEdit.UseVisualStyleBackColor = true;
-            this.btnCancelEdit.Click += new System.EventHandler(this.btnCancelEdit_Click);
+            this.numGraduationYear.Location = new System.Drawing.Point(12, 390);
+            this.numGraduationYear.Name = "numGraduationYear";
+            this.numGraduationYear.Size = new System.Drawing.Size(176, 34);
+            this.numGraduationYear.TabIndex = 6;
+            // 
+            // lblGraduationYear
+            // 
+            this.lblGraduationYear.AutoSize = true;
+            this.lblGraduationYear.Location = new System.Drawing.Point(7, 338);
+            this.lblGraduationYear.Name = "lblGraduationYear";
+            this.lblGraduationYear.Size = new System.Drawing.Size(144, 28);
+            this.lblGraduationYear.TabIndex = 5;
+            this.lblGraduationYear.Text = "Рік закінчення";
+            // 
+            // txtInstitution
+            // 
+            this.txtInstitution.Location = new System.Drawing.Point(12, 257);
+            this.txtInstitution.Name = "txtInstitution";
+            this.txtInstitution.Size = new System.Drawing.Size(362, 34);
+            this.txtInstitution.TabIndex = 4;
+            // 
+            // label1
+            // 
+            this.label1.AutoSize = true;
+            this.label1.Location = new System.Drawing.Point(6, 217);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(75, 28);
+            this.label1.TabIndex = 3;
+            this.label1.Text = "Заклад";
+            // 
+            // lblMajor
+            // 
+            this.lblMajor.AutoSize = true;
+            this.lblMajor.Location = new System.Drawing.Point(7, 135);
+            this.lblMajor.Name = "lblMajor";
+            this.lblMajor.Size = new System.Drawing.Size(138, 28);
+            this.lblMajor.TabIndex = 2;
+            this.lblMajor.Text = "Спеціальність";
+            // 
+            // txtDegree
+            // 
+            this.txtDegree.Location = new System.Drawing.Point(12, 81);
+            this.txtDegree.Name = "txtDegree";
+            this.txtDegree.Size = new System.Drawing.Size(362, 34);
+            this.txtDegree.TabIndex = 1;
+            // 
+            // lblDegree
+            // 
+            this.lblDegree.AutoSize = true;
+            this.lblDegree.Location = new System.Drawing.Point(7, 49);
+            this.lblDegree.Name = "lblDegree";
+            this.lblDegree.Size = new System.Drawing.Size(81, 28);
+            this.lblDegree.TabIndex = 0;
+            this.lblDegree.Text = "Ступінь";
             // 
             // btnAddEducation
             // 
@@ -207,13 +214,6 @@
             this.btnDeleteEducation.UseVisualStyleBackColor = true;
             this.btnDeleteEducation.Click += new System.EventHandler(this.btnDeleteEducation_Click);
             // 
-            // txtMajor
-            // 
-            this.txtMajor.Location = new System.Drawing.Point(12, 166);
-            this.txtMajor.Name = "txtMajor";
-            this.txtMajor.Size = new System.Drawing.Size(362, 34);
-            this.txtMajor.TabIndex = 9;
-            // 
             // EducationsForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(11F, 28F);
@@ -228,7 +228,7 @@
             this.Controls.Add(this.cmbEmployee);
             this.Font = new System.Drawing.Font("Segoe UI", 10F);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog;
-            this.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
+            this.Margin = new System.Windows.Forms.Padding(4);
             this.MaximizeBox = false;
             this.MinimizeBox = false;
             this.Name = "EducationsForm";

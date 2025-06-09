@@ -335,7 +335,7 @@
             this.MaximizeBox = false;
             this.MinimizeBox = false;
             this.Name = "PositionsForm";
-            this.Text = "PositionsForm";
+            this.Text = "Посади";
             this.Load += new System.EventHandler(this.PositionsForm_Load);
             this.groupBoxPositionEdit.ResumeLayout(false);
             this.groupBoxPositionEdit.PerformLayout();

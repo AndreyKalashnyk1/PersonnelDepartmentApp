@@ -61,7 +61,7 @@
             this.вихідToolStripMenuItem});
             this.menuStrip1.Location = new System.Drawing.Point(0, 0);
             this.menuStrip1.Name = "menuStrip1";
-            this.menuStrip1.Size = new System.Drawing.Size(401, 48);
+            this.menuStrip1.Size = new System.Drawing.Size(401, 46);
             this.menuStrip1.TabIndex = 0;
             this.menuStrip1.Text = "menuStrip1";
             // 
@@ -74,8 +74,8 @@
             this.освітаToolStripMenuItem});
             this.співробітникиToolStripMenuItem.Font = new System.Drawing.Font("Segoe UI", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.співробітникиToolStripMenuItem.Name = "співробітникиToolStripMenuItem";
-            this.співробітникиToolStripMenuItem.Size = new System.Drawing.Size(95, 42);
-            this.співробітникиToolStripMenuItem.Text = "Списки";
+            this.співробітникиToolStripMenuItem.Size = new System.Drawing.Size(93, 42);
+            this.співробітникиToolStripMenuItem.Text = "Форми";
             this.співробітникиToolStripMenuItem.Click += new System.EventHandler(this.співробітникиToolStripMenuItem_Click);
             // 
             // tsmEmployees
@@ -118,7 +118,7 @@
             // 
             this.toolStripMenuItem8.Font = new System.Drawing.Font("Segoe UI", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.toolStripMenuItem8.Name = "toolStripMenuItem8";
-            this.toolStripMenuItem8.Size = new System.Drawing.Size(76, 44);
+            this.toolStripMenuItem8.Size = new System.Drawing.Size(76, 42);
             this.toolStripMenuItem8.Text = "Вихід";
             this.toolStripMenuItem8.Click += new System.EventHandler(this.вихідToolStripMenuItem_Click);
             // 

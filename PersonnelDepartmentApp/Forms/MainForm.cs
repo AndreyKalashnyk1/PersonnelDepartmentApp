@@ -44,8 +44,22 @@ namespace PersonnelDepartmentApp.Forms
 
         private void довідкаКористувачуToolStripMenuItem_Click(object sender, EventArgs e)
         {
-
+            try
+            {
+                string pdfPath = System.IO.Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "2025_ПІ_ООП_ПЗПІ-24-5_Калашник_А_М.pdf");
+                if (!System.IO.File.Exists(pdfPath))
+                {
+                    MessageBox.Show("Файл довідки не знайдено.", "Помилка", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    return;
+                }
+                System.Diagnostics.Process.Start(pdfPath);
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show("Не вдалося відкрити файл довідки.\n" + ex.Message, "Помилка", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
         }
+
 
         private void вихідToolStripMenuItem_Click(object sender, EventArgs e)
         {

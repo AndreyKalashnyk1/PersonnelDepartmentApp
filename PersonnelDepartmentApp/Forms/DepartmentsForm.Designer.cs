@@ -287,7 +287,7 @@
             this.MaximizeBox = false;
             this.MinimizeBox = false;
             this.Name = "DepartmentsForm";
-            this.Text = "DepartmentsForm";
+            this.Text = "Підрозділи";
             this.Load += new System.EventHandler(this.DepartmentsForm_Load);
             ((System.ComponentModel.ISupportInitialize)(this.dgvEmployeesWithDepartments)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.dgvDepartments)).EndInit();

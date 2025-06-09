@@ -13,7 +13,6 @@ public class PositionService
 
     public List<Position> GetPositions()
     {
-        // Реализуйте загрузку из файла или базы
         return positions;
     }
 
